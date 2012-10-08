@@ -15,6 +15,7 @@ import net.minecraft.src.Chunk;
 import net.minecraft.src.CommandException;
 import net.minecraft.src.CompressedStreamTools;
 import net.minecraft.src.Entity;
+import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.ICommandSender;
@@ -407,6 +408,27 @@ public class CommandWorldEdit extends Command {
 					world.setBlockAndMetadata(x, y, z, data.clipboard[i], data.clipboardMeta[i++]); // TODO more efficient solution at chunk level?
 				}
 			}
+		}
+		
+		for (NBTTagCompound tileNBT : data.clipboardTiles) {
+			NBTTagCompound tileNBTNew = (NBTTagCompound)tileNBT.copy();
+			tileNBTNew.setInteger("x", tileNBTNew.getInteger("x"));
+			tileNBTNew.setInteger("y", tileNBTNew.getInteger("y"));
+			tileNBTNew.setInteger("z", tileNBTNew.getInteger("z"));
+			TileEntity tile = TileEntity.createAndLoadEntity(tileNBTNew);
+			world.setBlockTileEntity(tile.xCoord, tile.yCoord, tile.zCoord, tile);
+		}
+		
+		for (NBTTagCompound entityNBT : data.clipboardEntities) {
+			NBTTagCompound entityNBTNew = (NBTTagCompound)entityNBT.copy();
+			NBTTagList newEntityPos = new NBTTagList();
+			NBTTagList entityPos = entityNBTNew.getTagList("Pos");
+			newEntityPos.appendTag(new NBTTagDouble((String)null, baseX + ((NBTTagDouble)entityPos.tagAt(0)).data));
+			newEntityPos.appendTag(new NBTTagDouble((String)null, baseY + ((NBTTagDouble)entityPos.tagAt(1)).data));
+			newEntityPos.appendTag(new NBTTagDouble((String)null, baseZ + ((NBTTagDouble)entityPos.tagAt(2)).data));
+			entityNBTNew.setTag("Pos", newEntityPos);
+			Entity ent = EntityList.createEntityFromNBT(entityNBTNew, world);
+			world.spawnEntityInWorld(ent);
 		}
 		
 		for (int x = (int)Math.floor(baseX / 16); x <= (int)Math.floor(baseX + data.clipboardSize[0] / 16); x++) {
