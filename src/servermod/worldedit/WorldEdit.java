@@ -13,7 +13,7 @@ import servermod.core.ServerMod;
 public class WorldEdit {
 	protected final ServerMod sm;
 	protected CommandWorldEdit command;
-	protected static final ItemStack tool = new ItemStack(Block.pistonExtension); // block 36
+	protected static final ItemStack tool = new ItemStack(Block.pistonExtension); // block 34
 	private HashMap<String, PlayerData> data = new HashMap<String, PlayerData>();
 	
 	public WorldEdit(ServerMod sm) {
@@ -45,12 +45,9 @@ public class WorldEdit {
 		commands.registerCommand(command);
 		
 		int id = tool.itemID;
-		int sprite = tool.getIconIndex();
-		int maxStack = tool.getMaxStackSize();
 		Item.itemsList[id] = null;
 		Item.itemsList[id] = new ItemWorldEditTool(id - 256, this);
-		Item.itemsList[id].setIconIndex(sprite);
-		Item.itemsList[id].setMaxStackSize(maxStack);
+		Item.itemsList[id].setMaxStackSize(1);
 	}
 	
 	protected PlayerData getPlayerData(String username) {

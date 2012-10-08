@@ -13,6 +13,13 @@ public class ItemWorldEditTool extends Item {
 	public ItemWorldEditTool(int id, WorldEdit we) {
 		super(id);
 		this.we = we;
+		
+		setIconIndex(Item.enderPearl.getIconFromDamage(0));
+	}
+	
+	@Override
+	public boolean hasEffect(ItemStack stack) {
+		return true;
 	}
 
 	@Override
