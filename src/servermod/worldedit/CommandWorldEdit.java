@@ -9,6 +9,7 @@ import java.util.List;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.src.AxisAlignedBB;
 import net.minecraft.src.Block;
 import net.minecraft.src.Chunk;
 import net.minecraft.src.CommandException;
@@ -18,6 +19,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.ICommandSender;
 import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.NBTTagDouble;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.PlayerManager;
 import net.minecraft.src.PlayerNotFoundException;
@@ -200,6 +202,7 @@ public class CommandWorldEdit extends Command {
 		data.clipboard = new short[data.clipboardSize[0] * data.clipboardSize[1] * data.clipboardSize[2]];
 		data.clipboardMeta = new byte[data.clipboard.length];
 		data.clipboardTiles.clear();
+		data.clipboardEntities.clear();
 		
 		for (int x = minX; x <= maxX; x++) {
 			for (int y = minY; y <= maxY; y++) {
@@ -224,6 +227,21 @@ public class CommandWorldEdit extends Command {
 						}
 					}
 				}
+			}
+		}
+		
+		if (we.sm.settings.worldedit_copy_entities) {
+			for (Entity ent : (List<Entity>)world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ))) {
+				if (ent instanceof EntityPlayer) continue; // entity blacklist
+				
+				NBTTagCompound entityNBT = new NBTTagCompound();
+				ent.writeToNBT(entityNBT);
+				NBTTagList newEntityPos = new NBTTagList();
+				NBTTagList entityPos = entityNBT.getTagList("Pos");
+				newEntityPos.appendTag(new NBTTagDouble((String)null, ((NBTTagDouble)entityPos.tagAt(0)).data - minX));
+				newEntityPos.appendTag(new NBTTagDouble((String)null, ((NBTTagDouble)entityPos.tagAt(1)).data - minY));
+				newEntityPos.appendTag(new NBTTagDouble((String)null, ((NBTTagDouble)entityPos.tagAt(2)).data - minZ));
+				entityNBT.setTag("Pos", newEntityPos);
 			}
 		}
 	}
