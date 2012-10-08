@@ -118,14 +118,14 @@ public class CommandWorldEdit extends Command {
 			if (index == 1) {
 				data.selA = new int[3];
 				data.selA[0] = parseInt(var1, var2[0]);
-				data.selA[1] = parseInt(var1, var2[1]);
+				data.selA[1] = parseIntBounded(var1, var2[1], 0, 255);
 				data.selA[2] = parseInt(var1, var2[2]);
 				
 				var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".sel.success", index, data.selA[0], data.selA[1], data.selA[2]));
 			} else {
 				data.selB = new int[3];
 				data.selB[0] = parseInt(var1, var2[0]);
-				data.selB[1] = parseInt(var1, var2[1]);
+				data.selB[1] = parseIntBounded(var1, var2[1], 0, 255);
 				data.selB[2] = parseInt(var1, var2[2]);
 				
 				var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".sel.success", index, data.selB[0], data.selB[1], data.selB[2]));
@@ -319,7 +319,6 @@ public class CommandWorldEdit extends Command {
 		File schematicFile = new File("schematics", joinString(var2, 0).replace(".", "") + ".schematic");
 		if (!schematicFile.canWrite()) throw new PlayerNotFoundException("commands.servermod_"+commandName+".save.noWrite");
 		
-		WorldServer world = var1 instanceof Entity ? (WorldServer)((Entity)var1).worldObj : DimensionManager.getWorld(0);
 		PlayerData data = we.getPlayerData(var1.getCommandSenderName());
 		
 		if (data.clipboard == null) throw new PlayerNotFoundException("commands.servermod_"+commandName+".noClipboard");
@@ -377,5 +376,45 @@ public class CommandWorldEdit extends Command {
 		}
 		
 		var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".save.success"));
+	}
+	
+	private void paste(ICommandSender var1, String[] var2) {
+		int baseX, baseY, baseZ;
+		
+		if (var2.length == 0) {
+			EntityPlayer player = getCommandSenderAsPlayer(var1);
+			baseX = (int)Math.ceil(player.posX);
+			baseY = (int)Math.floor(player.posY);
+			baseZ = (int)Math.floor(player.posZ);
+		} else if (var2.length == 3) {
+			baseX = parseInt(var1, var2[0]);
+			baseY = parseIntBounded(var1, var2[0], 0, 255);
+			baseZ = parseInt(var1, var2[1]);
+		} else {
+			throw new WrongUsageException("commands.servermod_"+commandName+".paste.usage");
+		}
+		
+		WorldServer world = var1 instanceof Entity ? (WorldServer)((Entity)var1).worldObj : DimensionManager.getWorld(0);
+		PlayerData data = we.getPlayerData(var1.getCommandSenderName());
+		
+		if (data.clipboard == null) throw new PlayerNotFoundException("commands.servermod_"+commandName+".noClipboard");
+		
+		int i = 0;
+		
+		for (int x = baseX; x <= baseX + data.clipboardSize[0]; x++) {
+			for (int y = baseY; y <= baseY + data.clipboardSize[1]; y++) {
+				for (int z = baseZ; z <= baseZ + data.clipboardSize[2]; z++) {
+					world.setBlockAndMetadata(x, y, z, data.clipboard[i], data.clipboardMeta[i++]); // TODO more efficient solution at chunk level?
+				}
+			}
+		}
+		
+		for (int x = (int)Math.floor(baseX / 16); x <= (int)Math.floor(baseX + data.clipboardSize[0] / 16); x++) {
+			for (int z = (int)Math.floor(baseZ / 16); z <= (int)Math.floor(baseX + data.clipboardSize[2] / 16); z++) {
+				world.getPlayerManager().flagChunkForUpdate(x, 0, z);
+			}
+		}
+		
+		var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".paste.success"));
 	}
 }
