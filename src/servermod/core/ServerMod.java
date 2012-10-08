@@ -150,46 +150,6 @@ public class ServerMod {
 		
 		commands.registerCommand(new CommandSay("say"));
 		
-		commands.registerCommand(new Command("smdbg") {
-			@Override
-			public void processCommand(ICommandSender var1, String[] var2) {
-				Entity entity = (Entity)var1;
-				ChunkPosition cp = findBiomePosition(entity.worldObj.getWorldChunkManager(), 0, 0, parseInt(var1,var2[0]), Arrays.asList(BiomeGenBase.mushroomIsland, BiomeGenBase.mushroomIslandShore), entity.worldObj.rand);
-				System.gc();
-				
-				if (cp == null) System.out.println("cp = null");
-				else System.out.println("cp = "+cp.x+","+cp.y+","+cp.z);
-			}
-			
-			public ChunkPosition findBiomePosition(WorldChunkManager wcm, int par1, int par2, int par3, List par4List, Random par5Random)
-		    {
-		        int var6 = par1 - par3 >> 2;
-		        int var7 = par2 - par3 >> 2;
-		        int var8 = par1 + par3 >> 2;
-		        int var9 = par2 + par3 >> 2;
-		        int var10 = var8 - var6 + 1;
-		        int var11 = var9 - var7 + 1;
-		        int[] var12;
-	        	var12 = wcm.genBiomes.getInts(var6, var7, var10, var11);
-		        ChunkPosition var13 = null;
-		        int var14 = 0;
-
-		        for (int var15 = 0; var15 < var12.length; ++var15)
-		        {
-		            int var16 = var6 + var15 % var10 << 2;
-		            int var17 = var7 + var15 / var10 << 2;
-		            BiomeGenBase var18 = BiomeGenBase.biomeList[var12[var15]];
-
-		            if (par4List.contains(var18))
-		            {
-		                return new ChunkPosition(var16, 0, var17);
-		            }
-		        }
-
-		        return var13;
-		    }
-		});
-		
 		lang.addStringLocalization("commands.message.display.outgoing", "[-> %s] %s");
 		lang.addStringLocalization("commands.message.display.incoming", "[%s] %s");
 		
