@@ -78,14 +78,6 @@ public class CrashReporter extends Handler {
 	
 	private static String paste(String text) {
 		Map<String,String> map = new HashMap<String,String>();
-		/*map.put("api_option", "paste");
-		map.put("api_dev_key", "4f409719bd70b09270cc9a9b18d6b947");
-		map.put("api_paste_code", text);
-		map.put("api_paste_private", "1");
-		map.put("api_paste_name", "Crash Report "+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
-		map.put("api_paste_expire_date", "N");
-		map.put("api_paste_format", "text");
-		map.put("api_user_key", "");*/
 		map.put("text", text);
 		map.put("title", "Crash Report "+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
 		map.put("name", "ServerMod Crash Reporter");
@@ -93,7 +85,6 @@ public class CrashReporter extends Handler {
 		
 		String url;
 		try {
-			//return HttpUtil.sendPost(new URL("http://pastebin.com/api/api_post.php"), map, false);
 			return HttpUtil.sendPost(new URL("http://paste.minecraftforge.net/api/create"), map, false);
 		} catch (Throwable e) {
 			return "The report was unable to be pasted: "+e;
