@@ -401,10 +401,10 @@ public class CommandWorldEdit extends Command {
 		if (data.clipboard == null) throw new PlayerNotFoundException("commands.servermod_"+commandName+".noClipboard");
 		
 		int i = 0;
-		
-		for (int x = baseX; x <= baseX + data.clipboardSize[0]; x++) {
-			for (int y = baseY; y <= baseY + data.clipboardSize[1]; y++) {
-				for (int z = baseZ; z <= baseZ + data.clipboardSize[2]; z++) {
+
+		for (int y = baseY; y < baseY + data.clipboardSize[1]; y++) {
+			for (int z = baseZ; z < baseZ + data.clipboardSize[2]; z++) {
+				for (int x = baseX; x < baseX + data.clipboardSize[0]; x++) {
 					world.setBlockAndMetadata(x, y, z, data.clipboard[i], data.clipboardMeta[i++]); // TODO more efficient solution at chunk level?
 				}
 			}
