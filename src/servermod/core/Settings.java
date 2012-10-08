@@ -44,6 +44,8 @@ public class Settings extends Properties {
 	public boolean inventory_helmet_enable = true;
 	public boolean inventory_helmet_require_op = false;
 	public boolean enable_motd = true;
+	public boolean enable_worldedit = true;
+	public boolean worldedit_copy_entities = false;
 	
 	public Settings(ServerMod sm, String file) {
 		this.sm = sm;

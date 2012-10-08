@@ -189,7 +189,9 @@ public class ServerMod {
 			motd = new MOTD(this);
 		}
 		
-		we = new WorldEdit(this);
+		if (settings.enable_worldedit) {
+			we = new WorldEdit(this);
+		}
 	}
 	
 	@ServerStopping
