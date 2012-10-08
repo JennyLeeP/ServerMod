@@ -18,6 +18,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.ICommandSender;
 import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.NBTTagList;
 import net.minecraft.src.PlayerManager;
 import net.minecraft.src.PlayerNotFoundException;
 import net.minecraft.src.TileEntity;
@@ -200,8 +201,6 @@ public class CommandWorldEdit extends Command {
 		data.clipboardMeta = new byte[data.clipboard.length];
 		data.clipboardTiles.clear();
 		
-		int extblocks = 0;
-		
 		for (int x = minX; x <= maxX; x++) {
 			for (int y = minY; y <= maxY; y++) {
 				for (int z = minZ; z <= maxZ; z++) {
@@ -216,17 +215,16 @@ public class CommandWorldEdit extends Command {
 						TileEntity te = world.getBlockTileEntity(x, y, z);
 						
 						if (te != null) {
-							data.clipboardTiles.add(te);
+							NBTTagCompound tileNBT = new NBTTagCompound();
+							te.writeToNBT(tileNBT);
+							tileNBT.setInteger("x", tileNBT.getInteger("x") - minX);
+							tileNBT.setInteger("y", tileNBT.getInteger("y") - minY);
+							tileNBT.setInteger("z", tileNBT.getInteger("z") - minZ);
+							data.clipboardTiles.add(tileNBT);
 						}
 					}
-					
-					if (id > 255) extblocks++;
 				}
 			}
-		}
-		
-		if (extblocks >= 0) {
-			var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".4kWarning", extblocks));
 		}
 	}
 	
@@ -234,7 +232,7 @@ public class CommandWorldEdit extends Command {
 		if (var2.length < 1) throw new WrongUsageException("commands.servermod_"+commandName+".load.usage");
 		
 		File schematicFile = new File("schematics", joinString(var2, 0).replace(".", "") + ".schematic");
-		if (!schematicFile.exists()) throw new WrongUsageException("commands.servermod_"+commandName+".load.fileNotFound");
+		if (!schematicFile.exists()) throw new PlayerNotFoundException("commands.servermod_"+commandName+".load.fileNotFound");
 		
 		WorldServer world = var1 instanceof Entity ? (WorldServer)((Entity)var1).worldObj : DimensionManager.getWorld(0);
 		PlayerData data = we.getPlayerData(var1.getCommandSenderName());
@@ -242,6 +240,7 @@ public class CommandWorldEdit extends Command {
 		try {
 			NBTTagCompound schematicTag = CompressedStreamTools.read(schematicFile);
 			if (!schematicTag.getName().equals("Schematic")) throw new Exception();
+			if (!schematicTag.getString("Materials").equalsIgnoreCase("Alpha")) throw new Exception();
 			
 			data.clipboardSize[0] = schematicTag.getShort("Width");
 			data.clipboardSize[1] = schematicTag.getShort("Height");
@@ -249,15 +248,107 @@ public class CommandWorldEdit extends Command {
 			data.clipboard = new short[data.clipboardSize[0] * data.clipboardSize[1] * data.clipboardSize[2]];
 			data.clipboardMeta = new byte[data.clipboard.length];
 			data.clipboardTiles.clear();
+			data.clipboardEntities.clear();
 			
 			byte[] rawBlocks = schematicTag.getByteArray("Blocks");
 			byte[] meta = schematicTag.getByteArray("Data");
-			for (int i = 0; i < rawBlocks.length && i < meta.length && i < data.clipboard.length && i < data.clipboardMeta.length; i++) {
-				data.clipboard[i] = rawBlocks[i];
-				data.clipboardMeta[i] = meta[i];
+			
+			if (schematicTag.hasKey("AddBlocks")) {
+				byte[] addBlocks = schematicTag.getByteArray("AddBlocks");
+				for (int i = 0, abi = 0; i < data.clipboard.length && abi < addBlocks.length; ++abi) {
+					data.clipboard[i] = (short)(((addBlocks[abi] >> 4) << 8) + (rawBlocks[i++] & 0xFF));
+					if (i < data.clipboard.length) {
+						data.clipboard[i] = (short)(((addBlocks[abi] & 0xF) << 8) + (rawBlocks[i++] & 0xFF));
+					}
+				}
+			} else {
+				for (int i = 0; i < rawBlocks.length; i++) {
+					data.clipboard[i] = (short)(rawBlocks[i] & 0xFF);
+					data.clipboardMeta[i] = meta[i];
+				}
+			}
+			
+			if (schematicTag.hasKey("TileEntities")) {
+				NBTTagList tiles = schematicTag.getTagList("TileEntities");
+				
+				for (int i = 0; i < tiles.tagCount(); i++) {
+					data.clipboardTiles.add((NBTTagCompound)tiles.tagAt(i));
+				}
+			}
+			
+			if (schematicTag.hasKey("Entities")) {
+				NBTTagList entities = schematicTag.getTagList("Entities");
+				
+				for (int i = 0; i < entities.tagCount(); i++) {
+					data.clipboardEntities.add((NBTTagCompound)entities.tagAt(i));
+				}
 			}
 		} catch (Throwable e) {
-			throw new WrongUsageException("commands.servermod_"+commandName+".load.readFail");
+			throw new PlayerNotFoundException("commands.servermod_"+commandName+".load.readFail");
+		}
+	}
+	
+	private void save(ICommandSender var1, String[] var2) {
+		if (var2.length < 1) throw new WrongUsageException("commands.servermod_"+commandName+".save.usage");
+		
+		File schematicFile = new File("schematics", joinString(var2, 0).replace(".", "") + ".schematic");
+		if (!schematicFile.canWrite()) throw new PlayerNotFoundException("commands.servermod_"+commandName+".save.noWrite");
+		
+		WorldServer world = var1 instanceof Entity ? (WorldServer)((Entity)var1).worldObj : DimensionManager.getWorld(0);
+		PlayerData data = we.getPlayerData(var1.getCommandSenderName());
+		
+		if (data.clipboard == null) throw new PlayerNotFoundException("commands.servermod_"+commandName+".noClipboard");
+		
+		try {
+			NBTTagCompound schematicTag = new NBTTagCompound("Schematic");
+			
+			schematicTag.setString("Materials", "Alpha");
+			schematicTag.setShort("Width", (short)data.clipboardSize[0]);
+			schematicTag.setShort("Height", (short)data.clipboardSize[1]);
+			schematicTag.setShort("Length", (short)data.clipboardSize[2]);
+			
+			byte[] blocks = new byte[data.clipboard.length];
+			byte[] addBlocks = null;
+			byte[] meta = new byte[data.clipboardMeta.length];
+			
+			int extblocks = 0;
+			
+			for (int i = 0; i < blocks.length && i < meta.length; i++) {
+				if (data.clipboard[i] > 255) {
+					extblocks++;
+					if (addBlocks == null) addBlocks = new byte[blocks.length >> 1];
+					addBlocks[i >> 1] = (byte)(((i & 1) == 0) ?
+							addBlocks[i >> 1] & 0xF0 | (data.clipboard[i] >> 8) & 0xF
+							: addBlocks[i >> 1] & 0xF | ((data.clipboard[i] >> 8) & 0xF) << 4);
+				}
+				
+				blocks[i] = (byte)data.clipboard[i];
+				meta[i] = data.clipboardMeta[i];
+			}
+			
+			if (extblocks >= 0) {
+				var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".4kWarning", extblocks));
+			}
+			
+			NBTTagList tiles = new NBTTagList();
+			
+			for (NBTTagCompound tile : data.clipboardTiles) {
+				tiles.appendTag(tile);
+			}
+			
+			schematicTag.setTag("TileEntities", tiles);
+			
+			NBTTagList entities = new NBTTagList();
+				
+			for (NBTTagCompound ent : data.clipboardEntities) {
+				entities.appendTag(ent);
+			}
+			
+			schematicTag.setTag("Entities", entities);
+			
+			CompressedStreamTools.write(schematicTag, schematicFile);
+		} catch (Throwable e) {
+			throw new WrongUsageException("commands.servermod_"+commandName+".save.writeFail");
 		}
 	}
 }

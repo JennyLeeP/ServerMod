@@ -24,6 +24,7 @@ public class WorldEdit {
 		
 		lang.addStringLocalization("commands.servermod_worldedit.usage", "/worldedit {command} {parameters...}");
 		lang.addStringLocalization("commands.servermod_worldedit.noSelection", "No selection");
+		lang.addStringLocalization("commands.servermod_worldedit.noClipboard", "Empty clipboard");
 		lang.addStringLocalization("commands.servermod_worldedit.badBlock", "Bad block type %d:%d");
 		lang.addStringLocalization("commands.servermod_worldedit.4kWarning", "Warning: The clipboard contains %d blocks with ID above 255. Those are not supported by the schematic format and have been replaced by air.");
 		lang.addStringLocalization("commands.servermod_worldedit.tool.usage", "/worldedit tool");
@@ -37,6 +38,9 @@ public class WorldEdit {
 		lang.addStringLocalization("commands.servermod_worldedit.load.usage", "/worldedit load <filename>");
 		lang.addStringLocalization("commands.servermod_worldedit.load.fileNotFound", "File not found");
 		lang.addStringLocalization("commands.servermod_worldedit.load.readFail", "Failed to read the schematic file");
+		lang.addStringLocalization("commands.servermod_worldedit.load.usage", "/worldedit save <filename>");
+		lang.addStringLocalization("commands.servermod_worldedit.load.noWrite", "Cannot write to file");
+		lang.addStringLocalization("commands.servermod_worldedit.load.writeFail", "Failed to save the schematic file");
 		command = new CommandWorldEdit("worldedit", this);
 		commands.registerCommand(command);
 		
