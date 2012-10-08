@@ -35,12 +35,19 @@ public class WorldEdit {
 		lang.addStringLocalization("commands.servermod_worldedit.clearsel.success", "Cleared selection point %d");
 		lang.addStringLocalization("commands.servermod_worldedit.clearsel.all", "Cleared selection");
 		lang.addStringLocalization("commands.servermod_worldedit.set.usage", "/worldedit set <block>[:<meta>]");
+		lang.addStringLocalization("commands.servermod_worldedit.set.success", "Set %d blocks to %s");
 		lang.addStringLocalization("commands.servermod_worldedit.load.usage", "/worldedit load <filename>");
+		lang.addStringLocalization("commands.servermod_worldedit.load.success", "Loaded %d blocks from schematic to clipboard");
 		lang.addStringLocalization("commands.servermod_worldedit.load.fileNotFound", "File not found");
 		lang.addStringLocalization("commands.servermod_worldedit.load.readFail", "Failed to read the schematic file");
-		lang.addStringLocalization("commands.servermod_worldedit.load.usage", "/worldedit save <filename>");
-		lang.addStringLocalization("commands.servermod_worldedit.load.noWrite", "Cannot write to file");
-		lang.addStringLocalization("commands.servermod_worldedit.load.writeFail", "Failed to save the schematic file");
+		lang.addStringLocalization("commands.servermod_worldedit.save.usage", "/worldedit save <filename>");
+		lang.addStringLocalization("commands.servermod_worldedit.save.success", "Saved clipboard to schematic");
+		lang.addStringLocalization("commands.servermod_worldedit.save.noWrite", "Cannot write to file");
+		lang.addStringLocalization("commands.servermod_worldedit.save.writeFail", "Failed to save the schematic file");
+		lang.addStringLocalization("commands.servermod_worldedit.copy.usage", "/worldedit copy");
+		lang.addStringLocalization("commands.servermod_worldedit.copy.success", "Copied %d blocks to the clipboard");
+		lang.addStringLocalization("commands.servermod_worldedit.paste.usage", "/worldedit paste");
+		lang.addStringLocalization("commands.servermod_worldedit.paste.success", "Pasted seletion");
 		command = new CommandWorldEdit("worldedit", this);
 		commands.registerCommand(command);
 		

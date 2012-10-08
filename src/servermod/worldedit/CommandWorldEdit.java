@@ -18,6 +18,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.ICommandSender;
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagDouble;
 import net.minecraft.src.NBTTagList;
@@ -171,7 +172,7 @@ public class CommandWorldEdit extends Command {
 		for (int x = minX; x <= maxX; x++) {
 			for (int y = minY; y <= maxY; y++) {
 				for (int z = minZ; z <= maxZ; z++) {
-					world.setBlockAndMetadata(x, y, z, id, meta);
+					world.setBlockAndMetadata(x, y, z, id, meta); // TODO more efficient solution at chunk level?
 				}
 			}
 		}
@@ -181,6 +182,8 @@ public class CommandWorldEdit extends Command {
 				world.getPlayerManager().flagChunkForUpdate(x, 0, z);
 			}
 		}
+		
+		var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".set.success", (maxX-minX+1)*(maxY-minY+1)*(maxZ-minZ+1), var1.translateString(new ItemStack(id, 1, meta).getItemName()+".name")));
 	}
 	
 	private void copy(ICommandSender var1, String[] var2) {
@@ -244,6 +247,8 @@ public class CommandWorldEdit extends Command {
 				entityNBT.setTag("Pos", newEntityPos);
 			}
 		}
+		
+		var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".copy.success", data.clipboard.length));
 	}
 	
 	private void load(ICommandSender var1, String[] var2) {
@@ -304,6 +309,8 @@ public class CommandWorldEdit extends Command {
 		} catch (Throwable e) {
 			throw new PlayerNotFoundException("commands.servermod_"+commandName+".load.readFail");
 		}
+		
+		var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".load.success", data.clipboard.length));
 	}
 	
 	private void save(ICommandSender var1, String[] var2) {
@@ -368,5 +375,7 @@ public class CommandWorldEdit extends Command {
 		} catch (Throwable e) {
 			throw new WrongUsageException("commands.servermod_"+commandName+".save.writeFail");
 		}
+		
+		var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".save.success"));
 	}
 }
