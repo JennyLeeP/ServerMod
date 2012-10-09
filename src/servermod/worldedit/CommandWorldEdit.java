@@ -93,9 +93,10 @@ public class CommandWorldEdit extends Command {
 	}
 	
 	public void sel(ICommandSender var1, String[] var2, int index) {
+		PlayerData data = we.getPlayerData(var1.getCommandSenderName());
+		
 		if (var2.length == 0) {
 			EntityPlayer player = getCommandSenderAsPlayer(var1);
-			PlayerData data = we.getPlayerData(var1.getCommandSenderName());
 			
 			if (index == 1) {
 				data.selA = new int[3];
@@ -112,10 +113,7 @@ public class CommandWorldEdit extends Command {
 				
 				var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".sel.success", index, data.selB[0], data.selB[1], data.selB[2]));
 			}
-			
 		} else if (var2.length == 3) {
-			PlayerData data = we.getPlayerData(var1.getCommandSenderName());
-			
 			if (index == 1) {
 				data.selA = new int[3];
 				data.selA[0] = parseInt(var1, var2[0]);
@@ -132,6 +130,12 @@ public class CommandWorldEdit extends Command {
 				var1.sendChatToPlayer(var1.translateString("commands.servermod_"+commandName+".sel.success", index, data.selB[0], data.selB[1], data.selB[2]));
 			}
 		} else throw new WrongUsageException("commands.servermod_"+commandName+".sel.usage");
+		
+		if (var1 instanceof EntityPlayerMP) {
+			EntityPlayerMP playerMP = (EntityPlayerMP)var1;
+			if (data.selA != null) WorldEditCUIUtils.sendPointEvent(playerMP, 0, data.selA[0], data.selA[1], data.selA[2]);
+			if (data.selB != null) WorldEditCUIUtils.sendPointEvent(playerMP, 1, data.selB[0], data.selB[1], data.selB[2]);
+		}
 	}
 	
 	private void clearsel(ICommandSender var1, String[] var2) {
