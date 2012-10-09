@@ -38,6 +38,7 @@ public class Settings extends Properties {
 	public boolean enable_inventory = true;
 	public boolean inventory_crafting_enable = true;
 	public boolean inventory_crafting_require_op = true;
+	public boolean inventory_crafting_use_inventory = true;
 	public boolean inventory_enderchest_enable = true;
 	public boolean inventory_enderchest_require_op = true;
 	public boolean inventory_user_enable = true;

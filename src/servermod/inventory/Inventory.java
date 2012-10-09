@@ -23,6 +23,7 @@ public class Inventory {
 		
 		if (sm.settings.inventory_crafting_enable) {
 			lang.addStringLocalization("commands.servermod_craft.usage", "/craft");
+			lang.addStringLocalization("commands.servermod_craft.success", "Crafted %d times");
 			commands.registerCommand(new CommandCraft("craft", this));
 		}
 		
