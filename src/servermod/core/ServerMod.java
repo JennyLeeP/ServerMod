@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.logging.Level;
 
 import servermod.command.CommandConfig;
 import servermod.command.CommandDifficulty;
@@ -73,7 +74,7 @@ public class ServerMod {
 	public void onServerStarting(FMLServerStartingEvent event) {
 		server = MinecraftServer.getServer();
 		
-		server.logInfoMessage("ServerMod starting");
+		server.logger.log(Level.INFO, "ServerMod starting");
 		
 		ServerCommandManager commands = (ServerCommandManager)server.getCommandManager();
 		LanguageRegistry lang = LanguageRegistry.instance();
@@ -168,17 +169,17 @@ public class ServerMod {
 		if (settings.enable_irc) {
 			irc = new IRC(this);
 		} else if (settings.enable_chat_relaying) {
-			server.logWarningMessage("Cannot enable chat relaying without IRC");
+			server.logger.log(Level.WARNING, "Cannot enable chat relaying without IRC");
 		}
 		
 		if (settings.enable_crash_reporter) {
 			if (settings.enable_irc) crashReporter = new CrashReporter(this);
-			else server.logWarningMessage("Cannot enable crash reporter without IRC");
+			else server.logger.log(Level.WARNING, "Cannot enable crash reporter without IRC");
 		}
 		
 		if (settings.enable_home) {
 			if (hasForge) home = new Home(this);
-			else server.logWarningMessage("Cannot enable home system without Forge");
+			else server.logger.log(Level.WARNING, "Cannot enable home system without Forge");
 		}
 		
 		if (settings.enable_inventory) {

@@ -80,7 +80,7 @@ public class CommandTp extends Command {
 		
 		if (tpfrom == null) throw new PlayerNotFoundException();
 		
-		if (tpfrom.dimension == tpdim) tpfrom.serverForThisPlayer.setPlayerLocation(tpx, tpy, tpz, tpyaw, tppitch);
+		if (tpfrom.dimension == tpdim) tpfrom.playerNetServerHandler.setPlayerLocation(tpx, tpy, tpz, tpyaw, tppitch);
 		else manager.transferPlayerToDimension(tpfrom, tpdim, new TeleporterCustom(tpx, tpy, tpz, tpyaw, tppitch));
 		
 		if (tpto == null) notifyAdmins(var1, "commands.servermod_"+commandName+".coordinatesDim", new Object[] {tpfrom.getEntityName(), tpdim, (int)tpx, (int)tpy, (int)tpz});

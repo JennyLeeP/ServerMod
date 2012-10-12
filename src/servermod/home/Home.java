@@ -64,12 +64,12 @@ public class Home implements IPlayerTracker {
 	
 	@ForgeSubscribe
 	public void onWorldLoad(WorldEvent.Load event) {
-		if (event.world.saveHandler instanceof AnvilSaveHandler) load(event.world);
+		if (event.world.getSaveHandler() instanceof AnvilSaveHandler) load(event.world);
 	}
 	
 	@ForgeSubscribe
 	public void onWorldSave(WorldEvent.Save event) {
-		if (event.world.saveHandler instanceof AnvilSaveHandler) save(event.world);
+		if (event.world.getSaveHandler() instanceof AnvilSaveHandler) save(event.world);
 	}
 	
 	@ForgeSubscribe
@@ -183,7 +183,7 @@ public class Home implements IPlayerTracker {
 				return;
 			}
 			
-			if (player.dimension == dcc.dimension) ((EntityPlayerMP)player).serverForThisPlayer.setPlayerLocation(newdcc.posX + 0.5D, newdcc.posY + 0.5D, newdcc.posZ + 0.5D, 0F, 0F);
+			if (player.dimension == dcc.dimension) ((EntityPlayerMP)player).playerNetServerHandler.setPlayerLocation(newdcc.posX + 0.5D, newdcc.posY + 0.5D, newdcc.posZ + 0.5D, 0F, 0F);
 			else sm.server.getConfigurationManager().transferPlayerToDimension(player, dcc.dimension, new TeleporterCustom(newdcc.posX + 0.5D, newdcc.posY + 0.5D, newdcc.posZ + 0.5D, 0F, 0F));
 		}
 	}

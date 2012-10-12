@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.logging.Level;
 
 import net.minecraft.server.MinecraftServer;
 
@@ -91,7 +92,7 @@ public class Settings extends Properties {
 				}
 			}
 		} catch (Throwable e) {
-			MinecraftServer.getServer().logWarningMessage("Unable to load ServerMod configuration: "+e);
+			MinecraftServer.getServer().logger.log(Level.WARNING, "Unable to load ServerMod configuration: "+e);
 		}
 	}
 	
@@ -105,7 +106,7 @@ public class Settings extends Properties {
 			
 			store(new FileWriter(file), "ServerMod configuration");
 		} catch (Throwable e) {
-			MinecraftServer.getServer().logWarningMessage("Unable to save ServerMod configuration: "+e);
+			MinecraftServer.getServer().logger.log(Level.WARNING, "Unable to save ServerMod configuration: "+e);
 		}
 	}
 }

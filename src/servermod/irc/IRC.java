@@ -89,11 +89,11 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 			bot.connect(sm.settings.irc_server);
 		} catch (NickAlreadyInUseException e) {
 			String name = bot.getName();
-			server.logWarningMessage("IRC: Nick "+name+" already in use, trying another");
+			server.logger.log(Level.WARNING, "IRC: Nick "+name+" already in use, trying another");
 			bot.setName(name+"_");
 			connect();
 		} catch (Throwable e) {
-			server.logWarningMessage("IRC: Could not connect: "+e);
+			server.logger.log(Level.WARNING, "IRC: Could not connect: "+e);
 			return false;
 		}
 		

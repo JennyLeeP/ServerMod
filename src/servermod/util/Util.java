@@ -146,7 +146,7 @@ public class Util {
 	}
 	
 	public static String getWorldName(World world) {
-		return world.provider.func_80007_l();
+		return world.provider.getDimensionName();
 	}
 	
 	public static String getDuration(int tick) {

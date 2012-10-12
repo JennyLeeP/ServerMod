@@ -1,6 +1,7 @@
 package servermod.worldedit;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.Item;
@@ -55,6 +56,8 @@ public class WorldEdit {
 		Item.itemsList[id] = null;
 		Item.itemsList[id] = new ItemWorldEditTool(id - 256, this);
 		Item.itemsList[id].setMaxStackSize(1);
+		
+		sm.server.logger.log(Level.INFO, "World Edit: Initialized");
 	}
 	
 	protected PlayerData getPlayerData(String username) {
