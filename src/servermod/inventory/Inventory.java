@@ -2,6 +2,8 @@ package servermod.inventory;
 
 import java.util.logging.Level;
 
+import net.minecraft.src.Block;
+import net.minecraft.src.Item;
 import net.minecraft.src.ServerCommandManager;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -9,6 +11,7 @@ import servermod.core.ServerMod;
 
 public class Inventory {
 	protected ServerMod sm;
+	protected CommandCraft commandCraft;
 	
 	public Inventory(ServerMod sm) {
 		this.sm = sm;
@@ -24,7 +27,12 @@ public class Inventory {
 		if (sm.settings.inventory_crafting_enable) {
 			lang.addStringLocalization("commands.servermod_craft.usage", "/craft");
 			lang.addStringLocalization("commands.servermod_craft.success", "Crafted %d times");
-			commands.registerCommand(new CommandCraft("craft", this));
+			commands.registerCommand(commandCraft = new CommandCraft("craft", this));
+			
+			if (sm.settings.inventory_crafting_workbench) {
+				Item.itemsList[Block.workbench.blockID] = null;
+				Item.itemsList[Block.workbench.blockID] = new ItemWorkbench(Block.workbench.blockID - 256, this);
+			}
 		}
 		
 		if (sm.settings.inventory_user_enable) {
