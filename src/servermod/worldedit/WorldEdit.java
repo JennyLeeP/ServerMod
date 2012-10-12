@@ -57,6 +57,10 @@ public class WorldEdit {
 		Item.itemsList[id] = new ItemWorldEditTool(id - 256, this);
 		Item.itemsList[id].setMaxStackSize(1);
 		
+		if (sm.hasForge) {
+			new DropHandlerWorldEditTool(this);
+		}
+		
 		sm.server.logger.log(Level.INFO, "World Edit: Initialized");
 	}
 	
