@@ -28,9 +28,12 @@ public class CommandTps extends Command {
 		MinecraftServer server = MinecraftServer.getServer();
 		
 		if (var2.length == 0) {
+			var1.sendChatToPlayer(getOverallTps(server, var1, false));
 			for (WorldServer world : DimensionManager.getWorlds()) {
 				var1.sendChatToPlayer(getTpsInfo(server, world, var1, false));
 			}
+		} else if (var2[0].toLowerCase().startsWith("o")) {
+			for (String split : getOverallTps(server, var1, true).split("\n")) var1.sendChatToPlayer(split);
 		} else {
 			World world;
 			try {
@@ -47,10 +50,17 @@ public class CommandTps extends Command {
 	
 	private String getTpsInfo(MinecraftServer server, World world, ICommandSender sender, boolean full) {
 		if (world == null) return "";
-		double tickms = getTickTimeSum(server.worldTickTimes.get(world.provider.dimensionId)) * 10E-6D;
+		double tickms = getTickTimeSum(server.worldTickTimes.get(world.provider.dimensionId)) * 1.0E-6D;
 		double tps = 1000 / tickms;
 		if (tps > MAX_TPS) tps = MAX_TPS;
-		return sender.translateString("commands.servermod_"+commandName+"."+(full ? "long" : "short"), world.provider.dimensionId, Util.getWorldName(world), Math.round((tps / MAX_TPS) * 100), floatfmt.format(tps), MAX_TPS, floatfmt.format(tickms), MAX_TICKMS);
+		return sender.translateString("commands.servermod_"+commandName+"."+(full ? "long" : "short"), sender.translateString("commands.servermod_"+commandName+".world", world.provider.dimensionId), Util.getWorldName(world), Math.round((tps / MAX_TPS) * 100), floatfmt.format(tps), MAX_TPS, floatfmt.format(tickms), MAX_TICKMS);
+	}
+
+	private String getOverallTps(MinecraftServer server, ICommandSender sender, boolean full) {
+		double tickms = getTickTimeSum(server.tickTimeArray) * 1.0E-6D;
+		double tps = 1000 / tickms;
+		if (tps > MAX_TPS) tps = MAX_TPS;
+		return sender.translateString("commands.servermod_"+commandName+"."+(full ? "long" : "short"), sender.translateString("commands.servermod_"+commandName+".overall"), "Server", Math.round((tps / MAX_TPS) * 100), floatfmt.format(tps), MAX_TPS, floatfmt.format(tickms), MAX_TICKMS);
 	}
 	
 	private double getTickTimeSum(long[] times) {
