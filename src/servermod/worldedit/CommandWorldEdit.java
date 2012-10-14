@@ -67,7 +67,7 @@ public class CommandWorldEdit extends Command {
 		} catch (CommandException e) {
 			throw e;
 		} catch (Throwable e) {
-			throw new RuntimeException(e);
+			throw new CommandException(e.getMessage());
 		}
 	}
 	
@@ -312,6 +312,7 @@ public class CommandWorldEdit extends Command {
 				}
 			}
 		} catch (Throwable e) {
+			e.printStackTrace();
 			throw new PlayerNotFoundException("commands.servermod_"+commandName+".load.readFail");
 		}
 		

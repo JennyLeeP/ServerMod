@@ -14,7 +14,7 @@ public class ItemWorldEditTool extends Item {
 		super(id);
 		this.we = we;
 		
-		setIconIndex(Item.enderPearl.getIconFromDamage(0));
+		setIconCoord(11, 6);
 	}
 	
 	@Override
