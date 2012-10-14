@@ -22,6 +22,7 @@ public class Settings extends Properties {
 	
 	public boolean require_op_kill_self = false;
 	public boolean require_op_tps = false;
+	
 	public boolean enable_irc = false;
 	public String irc_server = "";
 	public String irc_nick = "";
@@ -29,13 +30,17 @@ public class Settings extends Properties {
 	public String irc_channel_key = "";
 	public String irc_auth_nick = "NickServ";
 	public String irc_auth_message = "";
+	
 	public boolean enable_chat_relaying = false;
+	
 	public boolean enable_crash_reporter = false;
 	public boolean crash_reporter_vote_restart = false;
 	public int crash_reporter_vote_restart_votes = 3;
+	
 	public boolean enable_home = false;
 	public boolean home_require_op = false;
 	public boolean home_use_bed = true;
+	
 	public boolean enable_inventory = true;
 	public boolean inventory_crafting_enable = true;
 	public boolean inventory_crafting_require_op = true;
@@ -46,9 +51,16 @@ public class Settings extends Properties {
 	public boolean inventory_user_enable = true;
 	public boolean inventory_helmet_enable = true;
 	public boolean inventory_helmet_require_op = false;
+	
 	public boolean enable_motd = true;
+	
 	public boolean enable_worldedit = true;
+	
 	public boolean worldedit_copy_entities = false;
+	
+	public boolean tweaks_throwable_firecharges = false;
+	public boolean tweaks_creeper_nogrief = false;
+	public float tweaks_creeper_damagefactor = 1.0F;
 	
 	public Settings(ServerMod sm, String file) {
 		this.sm = sm;
@@ -89,6 +101,10 @@ public class Settings extends Properties {
 					try { f.set(this, Boolean.parseBoolean(getProperty(name))); } catch (Throwable e) {}
 				} else if (Integer.TYPE.isAssignableFrom(type)) {
 					try { f.set(this, Integer.parseInt(getProperty(name))); } catch (Throwable e) {}
+				} else if (Float.TYPE.isAssignableFrom(type)) {
+					try { f.set(this, Float.parseFloat(getProperty(name))); } catch (Throwable e) {}
+				} else if (Double.TYPE.isAssignableFrom(type)) {
+					try { f.set(this, Double.parseDouble(getProperty(name))); } catch (Throwable e) {}
 				}
 			}
 		} catch (Throwable e) {

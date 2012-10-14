@@ -31,6 +31,7 @@ import servermod.inventory.CommandInventory;
 import servermod.inventory.Inventory;
 import servermod.irc.IRC;
 import servermod.motd.MOTD;
+import servermod.tweaks.Tweaks;
 import servermod.worldedit.WorldEdit;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.BiomeGenBase;
@@ -65,6 +66,7 @@ public class ServerMod {
 	public Inventory inventory;
 	public MOTD motd;
 	public WorldEdit we;
+	public Tweaks tweaks;
 	
 	public ServerMod() {
 		instance = this;
@@ -107,8 +109,10 @@ public class ServerMod {
 		commands.registerCommand(new CommandEnchant("enchant"));
 		
 		lang.addStringLocalization("commands.servermod_tps.usage", "/tps [worldid]");
-		lang.addStringLocalization("commands.servermod_tps.short", "World %1$d: %4$s TPS (%3$d%%) [%2$s]");
-		lang.addStringLocalization("commands.servermod_tps.long", "World %1$d: %2$s\nTPS: %4$s TPS out of %5$d TPS (%3$d%%)\nTick: %6$s ms out of %7$d ms");
+		lang.addStringLocalization("commands.servermod_tps.world", "World %1$d");
+		lang.addStringLocalization("commands.servermod_tps.overall", "Overall");
+		lang.addStringLocalization("commands.servermod_tps.short", "%1$s: %4$s TPS (%3$d%%) [%2$s]");
+		lang.addStringLocalization("commands.servermod_tps.long", "%1$s: %2$s\nTPS: %4$s TPS out of %5$d TPS (%3$d%%)\nTick: %6$s ms out of %7$d ms");
 		commands.registerCommand(new CommandTps("tps"));
 		
 		commands.registerCommand(new CommandXP("xp"));
@@ -193,6 +197,8 @@ public class ServerMod {
 		if (settings.enable_worldedit) {
 			we = new WorldEdit(this);
 		}
+		
+		tweaks = new Tweaks(this);
 	}
 	
 	@ServerStopping
