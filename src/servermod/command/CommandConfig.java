@@ -21,8 +21,8 @@ public class CommandConfig extends Command {
 		
 		MinecraftServer server = MinecraftServer.getServer();
 		settings.put("online-mode", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "x" : "onlineMode"));
-		settings.put("spawn-animals", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "y" : "canAnimalsSpawn"));
-		settings.put("spawn-npcs", new Setting(server,  ObfuscationReflectionHelper.obfuscation ? "z" : "canNPCsSpawn"));
+		settings.put("spawn-animals", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "y" : "canSpawnAnimals"));
+		settings.put("spawn-npcs", new Setting(server,  ObfuscationReflectionHelper.obfuscation ? "z" : "canSpawnNPCs"));
 		settings.put("pvp", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "A" : "pvpEnabled"));
 		settings.put("allow-flight", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "B" : "allowFlight"));
 		settings.put("texture-pack", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "P" : "texturePack"));
