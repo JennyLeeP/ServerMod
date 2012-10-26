@@ -27,8 +27,7 @@ public class CommandConfig extends Command {
 		settings.put("allow-flight", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "B" : "allowFlight"));
 		settings.put("texture-pack", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "P" : "texturePack"));
 		settings.put("motd", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "C" : "motd"));
-		settings.put("spawn-protection-size", new Setting(server, "spawnProtectionSize"));
-		
+	
 		if (server.isDedicatedServer()) {
 			settings.put("generate-structures", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "p" : "canSpawnStructures"));
 			settings.put("gamemode", new Setting(server, ObfuscationReflectionHelper.obfuscation ? "q" : "gameType"));
