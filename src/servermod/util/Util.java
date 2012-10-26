@@ -190,10 +190,10 @@ public class Util {
 	
 	public static boolean parseBoolean(String bool) throws IllegalArgumentException {
 		for (String value : trueValues) {
-			if (value.equalsIgnoreCase("bool")) return true;
+			if (value.equalsIgnoreCase(bool)) return true;
 		}
 		for (String value : falseValues) {
-			if (value.equalsIgnoreCase("bool")) return false;
+			if (value.equalsIgnoreCase(bool)) return false;
 		}
 		throw new IllegalArgumentException("Bad boolean string: "+bool);
 	}
