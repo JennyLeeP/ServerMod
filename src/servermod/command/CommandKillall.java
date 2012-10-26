@@ -13,7 +13,9 @@ import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ICommandSender;
 import net.minecraft.src.PlayerNotFoundException;
+import net.minecraft.src.World;
 import net.minecraft.src.WrongUsageException;
+import net.minecraftforge.common.DimensionManager;
 
 public class CommandKillall extends Command {
 	public CommandKillall(String commandName) {
@@ -33,8 +35,8 @@ public class CommandKillall extends Command {
 		if (name == null) throw new PlayerNotFoundException("commands.generic.entityType.notFound", new Object[0]);
 		
 		int removed = 0;
-		EntityPlayer player = (EntityPlayer)var1;
-		for (Entity ent : (List<Entity>)player.worldObj.loadedEntityList) {
+		World world = var1 instanceof Entity ? ((Entity)var1).worldObj : DimensionManager.getWorld(0);
+		for (Entity ent : (List<Entity>)world.loadedEntityList) {
 			String string = EntityList.getEntityString(ent);
 			if (string != null && string.equalsIgnoreCase(name) && !(ent instanceof EntityPlayer)) {
 				ent.setDead();
@@ -52,6 +54,6 @@ public class CommandKillall extends Command {
 	
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender var1) {
-		return var1 instanceof EntityPlayer && super.canCommandSenderUseCommand(var1);
+		return super.canCommandSenderUseCommand(var1);
 	}
 }
