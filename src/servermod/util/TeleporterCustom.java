@@ -20,7 +20,7 @@ public class TeleporterCustom extends Teleporter {
 	}
 	
 	@Override
-	public void placeInPortal(World var1, Entity var2) {
+	public void placeInPortal(World var1, Entity var2, double par3, double par5, double par7, float par9) {
 		var2.setLocationAndAngles(x, y, z, yaw, pitch);
 	}
 }

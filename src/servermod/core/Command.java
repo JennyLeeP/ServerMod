@@ -27,4 +27,8 @@ public abstract class Command extends CommandBase {
 	public static void notifyAdmins(ICommandSender var1, String var2, Object... var3) {
 		CommandBase.notifyAdmins(var1, StatCollector.translateToLocalFormatted(var2, var3), var3);
 	}
+	
+	public static String joinString(ICommandSender sender, String[] s, int index) {
+		return func_82361_a(sender, s, index, false);
+	}
 }

@@ -37,10 +37,10 @@ public class CommandCraft extends Command {
 			
 			int crafted = 0;
 			for (int i = 0; i < times; i++) {
-				ItemStack stack = CraftingManager.getInstance().findMatchingRecipe(craftMatrix);
+				ItemStack stack = CraftingManager.getInstance().func_82787_a(craftMatrix, player.worldObj);
 				if (stack != null) {
 					SlotCrafting slot = new SlotCrafting(player, craftMatrix, new InventoryBasic("", 1), 0, 0, 0);
-					slot.onPickupFromSlot(stack);
+					slot.func_82870_a(player, stack);
 					player.inventory.addItemStackToInventory(stack.copy());
 					crafted++;
 				} else break;

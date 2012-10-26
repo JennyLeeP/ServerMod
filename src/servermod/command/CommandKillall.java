@@ -25,7 +25,7 @@ public class CommandKillall extends Command {
 		if (var2.length < 1) throw new WrongUsageException("commands.servermod_"+commandName+".usage", new Object[0]);
 		
 		String name = null;
-		String pname = joinString(var2, 0);
+		String pname = joinString(var1, var2, 0);
 		for (String ename : (Set<String>)EntityList.stringToClassMapping.keySet()) {
 			if (ename.equalsIgnoreCase(pname)) name = ename;
 		}

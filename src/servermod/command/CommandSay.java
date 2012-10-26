@@ -17,11 +17,11 @@ public class CommandSay extends Command {
 	public void processCommand(ICommandSender var1, String[] var2) {
 		if (var2.length < 1) throw new WrongUsageException("commands.servermod_"+commandName+".usage", new Object[0]);
 		
-		PacketDispatcher.sendPacketToAllPlayers(new Packet3Chat("\u00a7d["+var1.getCommandSenderName()+"] "+joinString(var2, 0)));
+		PacketDispatcher.sendPacketToAllPlayers(new Packet3Chat("\u00a7d["+var1.getCommandSenderName()+"] "+joinString(var1, var2, 0)));
 		
 		ServerMod sm = ServerMod.instance();
 		if (sm.irc != null && (sm.settings.enable_chat_relaying || var1 instanceof MinecraftServer) && sm.irc.bot.isConnected()) {
-			sm.irc.messageQueue.add("["+var1.getCommandSenderName()+"] "+joinString(var2, 0));
+			sm.irc.messageQueue.add("["+var1.getCommandSenderName()+"] "+joinString(var1, var2, 0));
 		}
 	}
 	

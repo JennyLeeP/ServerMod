@@ -259,7 +259,7 @@ public class CommandWorldEdit extends Command {
 	private void load(ICommandSender var1, String[] var2) {
 		if (var2.length < 1) throw new WrongUsageException("commands.servermod_"+commandName+".load.usage");
 		
-		File schematicFile = new File("schematics", joinString(var2, 0).replace(".", "") + ".schematic");
+		File schematicFile = new File("schematics", joinString(var1, var2, 0).replace(".", "") + ".schematic");
 		if (!schematicFile.exists()) throw new PlayerNotFoundException("commands.servermod_"+commandName+".load.fileNotFound");
 		
 		WorldServer world = var1 instanceof Entity ? (WorldServer)((Entity)var1).worldObj : DimensionManager.getWorld(0);
@@ -322,7 +322,7 @@ public class CommandWorldEdit extends Command {
 	private void save(ICommandSender var1, String[] var2) {
 		if (var2.length < 1) throw new WrongUsageException("commands.servermod_"+commandName+".save.usage");
 		
-		File schematicFile = new File("schematics", joinString(var2, 0).replace(".", "") + ".schematic");
+		File schematicFile = new File("schematics", joinString(var1, var2, 0).replace(".", "") + ".schematic");
 		if (!schematicFile.canWrite()) throw new PlayerNotFoundException("commands.servermod_"+commandName+".save.noWrite");
 		
 		PlayerData data = we.getPlayerData(var1.getCommandSenderName());

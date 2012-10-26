@@ -45,7 +45,7 @@ public class CommandIRC extends Command {
 		if (var2.length < 1) throw new WrongUsageException("commands.servermod_"+commandName+".usage", new Object[0]);
 		if (!irc.bot.isConnected()) throw new PlayerNotFoundException("commands.servermod_"+commandName+".notConnected");
 		
-		irc.bot.sendMessage(irc.sm.settings.irc_channel, "["+var1.getCommandSenderName()+"] "+joinString(var2, 0));
+		irc.bot.sendMessage(irc.sm.settings.irc_channel, "["+var1.getCommandSenderName()+"] "+joinString(var1, var2, 0));
 	}
 	
 	private void nick(ICommandSender var1, String[] var2) {

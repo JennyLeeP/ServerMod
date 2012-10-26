@@ -43,7 +43,7 @@ public class CommandConfig extends Command {
 		
 		Setting setting = settings.get(var2[0]);
 		if (setting.target.getType() == String.class) {
-			setting.set(joinString(var2, 1));
+			setting.set(joinString(var1, var2, 1));
 		} else if (setting.target.getType() == Boolean.TYPE) {
 			try {
 				setting.set(Util.parseBoolean(var2[1]));
