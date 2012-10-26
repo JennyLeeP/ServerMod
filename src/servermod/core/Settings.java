@@ -34,6 +34,7 @@ public class Settings extends Properties {
 	public boolean enable_chat_relaying = false;
 	
 	public boolean enable_crash_reporter = false;
+	public boolean crash_reporter_disconnect = true;
 	public boolean crash_reporter_vote_restart = false;
 	public int crash_reporter_vote_restart_votes = 3;
 	

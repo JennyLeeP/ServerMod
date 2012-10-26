@@ -21,8 +21,10 @@ import servermod.util.Util;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.CrashReport;
+import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.HttpUtil;
 import net.minecraft.src.NetworkListenThread;
+import net.minecraft.src.ServerConfigurationManager;
 
 public class CrashReporter extends Handler {
 	protected final ServerMod sm;
@@ -54,6 +56,7 @@ public class CrashReporter extends Handler {
 			sm.irc.bot.sendMessage(sm.settings.irc_channel, Colors.BOLD+"Player crash:"+Colors.BOLD+" "+paste(new CrashReport("Exception while handling packet", arg0.getThrown()).getCompleteReport()));
 		} else if (arg0.getMessage().startsWith("This crash report has been saved to: ")) {
 			sm.irc.serverCrashed = true;
+			kickAllPlayers();
 			
 			try {
 				String s = Util.readFileToString(new File(arg0.getMessage().substring(37)));
@@ -72,6 +75,7 @@ public class CrashReporter extends Handler {
 			}
 		} else if (arg0.getMessage().equals("We were unable to save this crash report to disk.")) {
 			sm.irc.serverCrashed = true;
+			kickAllPlayers();
 			sm.irc.bot.sendMessage(sm.settings.irc_channel, Colors.BOLD+"General server crash:"+Colors.BOLD+" The report was unable to be saved.");
 		}
 	}
@@ -88,6 +92,13 @@ public class CrashReporter extends Handler {
 			return HttpUtil.sendPost(new URL("http://paste.minecraftforge.net/api/create"), map, false);
 		} catch (Throwable e) {
 			return "The report was unable to be pasted: "+e;
+		}
+	}
+	
+	private static void kickAllPlayers() {
+		ServerConfigurationManager manager = MinecraftServer.getServer().getConfigurationManager();
+		while (!manager.playerEntityList.isEmpty()) {
+			((EntityPlayerMP)manager.playerEntityList.get(0)).playerNetServerHandler.kickPlayerFromServer("Server crashed");
 		}
 	}
 }
