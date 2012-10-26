@@ -102,6 +102,8 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 		bot.joinChannel(sm.settings.irc_channel, sm.settings.irc_channel_key);
 		return true;
 	}
+	
+	
 
 	@Override
 	public Packet3Chat serverChat(NetHandler handler, Packet3Chat message) {
@@ -112,7 +114,7 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 				messageQueue.add("<"+handler.getPlayer().username+"> "+message.message.replaceAll("\r|\n", ""));
 			}
 		}
-		//message.message.replaceAll("stalker mod", "GPS mod");
+		
 		return message;
 	}
 

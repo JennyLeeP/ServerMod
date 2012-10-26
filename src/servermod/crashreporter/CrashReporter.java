@@ -76,7 +76,7 @@ public class CrashReporter extends Handler {
 		}
 	}
 	
-	private static String paste(String text) {
+	public static String paste(String text) {
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("text", text);
 		map.put("title", "Crash Report "+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
