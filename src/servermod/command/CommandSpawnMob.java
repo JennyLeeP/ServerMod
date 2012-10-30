@@ -47,6 +47,7 @@ public class CommandSpawnMob extends Command {
 			for (int i = 0; i < amount; i++) {
 				Entity ent = (Entity)ctor.newInstance(spawner.worldObj);
 				ent.setPosition(spawner.posX, spawner.posY, spawner.posZ);
+				if (ent instanceof EntityLiving) ((EntityLiving)ent).func_82163_bD();
 				spawner.worldObj.spawnEntityInWorld(ent);
 			}
 		} catch (Throwable e) {

@@ -62,6 +62,8 @@ public class Settings extends Properties {
 	public boolean tweaks_throwable_firecharges = false;
 	public boolean tweaks_creeper_nogrief = false;
 	public float tweaks_creeper_damagefactor = 1.0F;
+	public boolean tweaks_player_drophead = false;
+	public boolean tweaks_head_keepplayer = true;
 	
 	public Settings(ServerMod sm, String file) {
 		this.sm = sm;

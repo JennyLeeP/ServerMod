@@ -2,6 +2,7 @@ package servermod.tweaks;
 
 import java.util.logging.Level;
 
+import net.minecraft.src.Block;
 import net.minecraft.src.EntityList;
 import net.minecraft.src.Item;
 
@@ -24,6 +25,15 @@ public class Tweaks {
 			
 				EntityList.addMapping(EntityCreeper.class, "Creeper", 50, 894731, 0);
 			} else sm.server.logger.log(Level.WARNING, "Tweaks: Cannot enable creeper tweaks without Forge");
+		}
+		
+		if (sm.settings.tweaks_player_drophead) {
+			new PlayerHeads();
+		}
+		
+		if (sm.settings.tweaks_head_keepplayer) {
+			Block.blocksList[Block.field_82512_cj.blockID] = null;
+			new BlockSkull(Block.field_82512_cj.blockID).setHardness(1.0F).setStepSound(Block.soundStoneFootstep).setBlockName("skull").setRequiresSelfNotify(); // blocks are final :( but the ID will translate to our new skull
 		}
 		
 		sm.server.logger.log(Level.INFO, "Tweaks: Initialized");
