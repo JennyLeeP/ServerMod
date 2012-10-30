@@ -16,6 +16,8 @@ import java.util.logging.LogRecord;
 
 import org.pircbotx.Colors;
 
+import cpw.mods.fml.common.FMLLog;
+
 import servermod.core.ServerMod;
 import servermod.util.Util;
 
@@ -34,6 +36,7 @@ public class CrashReporter extends Handler {
 		this.sm = sm;
 		if (sm.settings.crash_reporter_vote_restart) voteRestart = new VoteRestart(this);
 		NetworkListenThread.logger.addHandler(this);
+		FMLLog.getLogger().addHandler(this);
 		
 		sm.server.logger.log(Level.INFO, "Crash Reporter: Initialized");
 	}
@@ -52,8 +55,9 @@ public class CrashReporter extends Handler {
 	public void publish(LogRecord arg0) {
 		if (!sm.irc.bot.isConnected()) return;
 		
-		if (arg0.getMessage().startsWith("Failed to handle packet: ")) {
-			sm.irc.bot.sendMessage(sm.settings.irc_channel, Colors.BOLD+"Player crash:"+Colors.BOLD+" "+paste(new CrashReport("Exception while handling packet", arg0.getThrown()).getCompleteReport()));
+		if (arg0.getMessage().startsWith("A critical server error occured handling a packet, kicking ")) {
+			String username = arg0.getMessage().split(" ")[8];
+			sm.irc.bot.sendMessage(sm.settings.irc_channel, Colors.BOLD+"Player "+username+" crashed:"+Colors.BOLD+" "+paste(new CrashReport("Exception while handling packet from "+username, arg0.getThrown()).getCompleteReport()));
 		} else if (arg0.getMessage().startsWith("This crash report has been saved to: ")) {
 			sm.irc.serverCrashed = true;
 			kickAllPlayers();
