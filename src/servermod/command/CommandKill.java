@@ -27,7 +27,7 @@ public class CommandKill extends Command {
 		MinecraftServer server = MinecraftServer.getServer();
 		if (killer == killing) {
 			killing.attackEntityFrom(DamageSourceForce.genericForce, 1000);
-		} else if (server.getConfigurationManager().areCommandsAllowed(killer.username) || !server.isDedicatedServer()) {
+		} else if (killer.canCommandSenderUseCommand(1, "kill") || !server.isDedicatedServer()) {
 			killing.attackEntityFrom(DamageSourceForce.causePlayerDamageForce(killer), 1000);
 			notifyAdmins(var1, "commands.servermod_"+commandName+".success", killing.username);
 		}
