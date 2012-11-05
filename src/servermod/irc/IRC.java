@@ -9,12 +9,15 @@ import java.util.logging.Level;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.NetHandler;
 import net.minecraft.src.NetLoginHandler;
 import net.minecraft.src.INetworkManager;
 import net.minecraft.src.Packet1Login;
 import net.minecraft.src.Packet3Chat;
 import net.minecraft.src.ServerCommandManager;
+import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 import org.pircbotx.PircBotX;
 import org.pircbotx.exception.IrcException;
@@ -200,5 +203,12 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 	@Override
 	public String getLabel() {
 		return "ServerMod IRC";
+	}
+	
+	@ForgeSubscribe
+	public void onLivingDeath(LivingDeathEvent event) {
+		if (sm.settings.enable_chat_relaying && event.entityLiving instanceof EntityPlayerMP) {
+			bot.sendMessage(sm.settings.irc_channel, event.source.getDeathMessage((EntityPlayer)event.entityLiving));
+		}
 	}
 }
