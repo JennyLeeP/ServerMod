@@ -16,9 +16,11 @@ import net.minecraft.src.INetworkManager;
 import net.minecraft.src.Packet1Login;
 import net.minecraft.src.Packet3Chat;
 import net.minecraft.src.ServerCommandManager;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
+import org.pircbotx.Colors;
 import org.pircbotx.PircBotX;
 import org.pircbotx.exception.IrcException;
 import org.pircbotx.exception.NickAlreadyInUseException;
@@ -55,6 +57,7 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 		this.server = MinecraftServer.getServer();
 		this.sm = sm;
 		
+		MinecraftForge.EVENT_BUS.register(this);
 		NetworkRegistry.instance().registerChatListener(this);
 		GameRegistry.registerPlayerTracker(this);
 		TickRegistry.registerTickHandler(this, Side.SERVER);
@@ -121,9 +124,9 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 	public Packet3Chat serverChat(NetHandler handler, Packet3Chat message) {
 		if (sm.settings.enable_chat_relaying && (!message.message.startsWith("/") || message.message.startsWith("/me ")) && bot.isConnected()) {
 			if (message.message.startsWith("/me")) {
-				messageQueue.add("* "+handler.getPlayer().username+" "+message.message.substring(4).replaceAll("\r|\n", ""));
+				messageQueue.add("* "+makeNoPing(handler.getPlayer().username)+" "+message.message.substring(4).replaceAll("\r|\n", ""));
 			} else {
-				messageQueue.add("<"+handler.getPlayer().username+"> "+message.message.replaceAll("\r|\n", ""));
+				messageQueue.add("<"+makeNoPing(handler.getPlayer().username)+"> "+message.message.replaceAll("\r|\n", ""));
 			}
 		}
 		
@@ -208,7 +211,12 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 	@ForgeSubscribe
 	public void onLivingDeath(LivingDeathEvent event) {
 		if (sm.settings.enable_chat_relaying && event.entityLiving instanceof EntityPlayerMP) {
-			bot.sendMessage(sm.settings.irc_channel, event.source.getDeathMessage((EntityPlayer)event.entityLiving));
+			EntityPlayerMP player = (EntityPlayerMP)event.entityLiving;
+			bot.sendMessage(sm.settings.irc_channel, player.translateString("death."+event.source.damageType, makeNoPing(player.username)));
 		}
+	}
+	
+	private String makeNoPing(String text) {
+		return text.substring(0, 1)+Colors.NORMAL+text.substring(1, text.length());
 	}
 }
