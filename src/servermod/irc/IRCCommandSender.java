@@ -2,6 +2,7 @@ package servermod.irc;
 
 import net.minecraft.src.ChunkCoordinates;
 import net.minecraft.src.ICommandSender;
+import net.minecraft.src.StatCollector;
 
 public class IRCCommandSender implements ICommandSender {
 	private final IRC irc;
@@ -29,7 +30,7 @@ public class IRCCommandSender implements ICommandSender {
 
 	@Override
 	public String translateString(String var1, Object... var2) {
-		return null;
+		return StatCollector.translateToLocalFormatted(var1, var2);
 	}
 
 	@Override

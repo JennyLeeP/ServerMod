@@ -218,7 +218,7 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 	
 	@ForgeSubscribe
 	public void onLivingDeath(LivingDeathEvent event) {
-		if (sm.settings.enable_chat_relaying && event.entityLiving instanceof EntityPlayerMP) {
+		if (sm.settings.enable_chat_relaying && bot.isConnected() && event.entityLiving instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP)event.entityLiving;
 			bot.sendMessage(sm.settings.irc_channel, player.translateString("death."+event.source.damageType, makeNoPing(player.username)));
 		}
