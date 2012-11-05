@@ -33,6 +33,8 @@ public class Settings extends Properties {
 	public boolean irc_command_threaddump = false;
 	
 	public boolean enable_chat_relaying = false;
+	public boolean chat_relaying_bidirectional = false;
+	public boolean chat_relaying_commands = false;
 	
 	public boolean enable_crash_reporter = false;
 	public boolean crash_reporter_disconnect = true;

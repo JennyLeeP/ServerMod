@@ -31,6 +31,7 @@ import org.pircbotx.hooks.events.ServerResponseEvent;
 
 import servermod.core.ServerMod;
 import servermod.crashreporter.CrashReporter;
+import servermod.util.Util;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IPlayerTracker;
@@ -41,6 +42,7 @@ import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.network.IChatListener;
 import cpw.mods.fml.common.network.IConnectionHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -169,6 +171,8 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 	
 	@Override
 	public void onMessage(MessageEvent event) {
+		if (serverCrashed) return;
+		
 		if (sm.settings.irc_command_threaddump && event.getMessage().equalsIgnoreCase("!threaddump")) {
 			String s = "Current active threads: "+Thread.activeCount();
 			
@@ -182,6 +186,10 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 			}
 			
 			bot.sendMessage(sm.settings.irc_channel, "Thread dump: "+CrashReporter.paste("ServerMod Thread Dump", s));
+		} else if (sm.settings.chat_relaying_commands && event.getMessage().startsWith("!")) {
+			sm.server.getCommandManager().executeCommand(new IRCCommandSender(this, event.getUser().getNick()), event.getMessage().substring(1));
+		} else if (sm.settings.chat_relaying_bidirectional) { // don't need chat relaying on to do bidi
+			PacketDispatcher.sendPacketToAllPlayers(new Packet3Chat("\u00a7a[IRC]\u00a7r <"+event.getUser().getNick()+"> "+Util.colorCode(event.getMessage())));
 		}
 	}
 
