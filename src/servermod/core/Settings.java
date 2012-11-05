@@ -30,6 +30,7 @@ public class Settings extends Properties {
 	public String irc_channel_key = "";
 	public String irc_auth_nick = "NickServ";
 	public String irc_auth_message = "";
+	public boolean irc_command_threaddump = false;
 	
 	public boolean enable_chat_relaying = false;
 	

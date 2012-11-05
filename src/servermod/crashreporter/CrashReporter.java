@@ -84,11 +84,12 @@ public class CrashReporter extends Handler {
 		}
 	}
 	
-	public static String paste(String text) {
+	public static String paste(String title, String text) {
 		Map<String,String> map = new HashMap<String,String>();
 		map.put("text", text);
-		map.put("title", "Crash Report "+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date()));
-		map.put("name", "ServerMod Crash Reporter");
+		String fullTitle = title+" "+(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(new Date());
+		map.put("title", fullTitle);
+		map.put("name", fullTitle);
 		map.put("private", "1");
 		
 		String url;
@@ -97,6 +98,10 @@ public class CrashReporter extends Handler {
 		} catch (Throwable e) {
 			return "The report was unable to be pasted: "+e;
 		}
+	}
+	
+	public static String paste(String text) {
+		return paste("ServerMod Crash Report", text);
 	}
 	
 	private static void kickAllPlayers() {

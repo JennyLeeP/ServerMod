@@ -3,6 +3,7 @@ package servermod.irc;
 import java.lang.reflect.Field;
 import java.util.ArrayDeque;
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.Queue;
 import java.util.logging.Level;
 
@@ -19,15 +20,18 @@ import org.pircbotx.PircBotX;
 import org.pircbotx.exception.IrcException;
 import org.pircbotx.exception.NickAlreadyInUseException;
 import org.pircbotx.hooks.ListenerAdapter;
+import org.pircbotx.hooks.events.MessageEvent;
 import org.pircbotx.hooks.events.PrivateMessageEvent;
 import org.pircbotx.hooks.events.ServerResponseEvent;
 
 import servermod.core.ServerMod;
+import servermod.crashreporter.CrashReporter;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Side;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.network.IChatListener;
 import cpw.mods.fml.common.network.IConnectionHandler;
@@ -35,6 +39,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
 
 public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracker, ITickHandler {
 	public final PircBotX bot;
@@ -49,6 +54,7 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 		
 		NetworkRegistry.instance().registerChatListener(this);
 		GameRegistry.registerPlayerTracker(this);
+		TickRegistry.registerTickHandler(this, Side.SERVER);
 		
 		ServerCommandManager commands = (ServerCommandManager)sm.server.getCommandManager();
 		LanguageRegistry lang = LanguageRegistry.instance();
@@ -98,7 +104,10 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 		}
 		
 		sm.server.logger.log(Level.INFO, "IRC: Connected");
-		if (!sm.settings.irc_auth_nick.isEmpty()) bot.sendMessage(sm.settings.irc_auth_nick, sm.settings.irc_auth_message);
+		if (!sm.settings.irc_auth_nick.isEmpty()) {
+			bot.sendMessage(sm.settings.irc_auth_nick, sm.settings.irc_auth_message);
+			try { Thread.sleep(2000); } catch (Throwable e) {}
+		}
 		bot.joinChannel(sm.settings.irc_channel, sm.settings.irc_channel_key);
 		return true;
 	}
@@ -150,6 +159,24 @@ public class IRC extends ListenerAdapter implements IChatListener, IPlayerTracke
 	@Override
 	public void onPrivateMessage(PrivateMessageEvent event) {
 		sm.server.logger.log(Level.INFO, "[IRC "+event.getUser().getNick()+"] "+event.getMessage());
+	}
+	
+	@Override
+	public void onMessage(MessageEvent event) {
+		if (sm.settings.irc_command_threaddump && event.getMessage().equalsIgnoreCase("!threaddump")) {
+			String s = "Current active threads: "+Thread.activeCount();
+			
+			Map<Thread, StackTraceElement[]> stacks = Thread.getAllStackTraces();
+			for (Thread thread : stacks.keySet()) {
+				s += "\n\n"+thread.toString();
+				
+				for (StackTraceElement element : stacks.get(thread)) {
+					s += "\n\t"+element.toString();
+				}
+			}
+			
+			bot.sendMessage(sm.settings.irc_channel, "Thread dump: "+CrashReporter.paste("ServerMod Thread Dump", s));
+		}
 	}
 
 	@Override
