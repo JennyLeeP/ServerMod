@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +15,11 @@ public class Settings {
 	private final Map<String, Float> floatSettings = new HashMap<String, Float>();
 	private final Map<String, String> comments = new HashMap<String, String>();
 	private final File file;
+	private final String comment;
 	
-	public Settings(File file) {
+	public Settings(File file, String comment) {
 		this.file = file;
+		this.comment = comment;
 	}
 	
 	public void addSetting(String key, String defaultValue, String comment) {
@@ -80,5 +83,37 @@ public class Settings {
 		}
 		
 		reader.close();
+	}
+	
+	public void save() throws IOException {
+		PrintWriter writer = new PrintWriter(file);
+		
+		if (comment != null) {
+			for (String line : comment.split("\n")) {
+				writer.println("# "+line);
+			}
+			
+			writer.print("#########################");
+		}
+		
+		for (String key : stringSettings.keySet()) {
+			if (comments.containsKey(key)) writer.println("# "+comments.get(key));
+			writer.println(key+"="+stringSettings.get(key));
+		}
+		for (String key : booleanSettings.keySet()) {
+			if (comments.containsKey(key)) writer.println("# "+comments.get(key));
+			writer.println(key+"="+booleanSettings.get(key));
+		}
+		for (String key : intSettings.keySet()) {
+			if (comments.containsKey(key)) writer.println("# "+comments.get(key));
+			writer.println(key+"="+intSettings.get(key));
+		}
+		for (String key : floatSettings.keySet()) {
+			if (comments.containsKey(key)) writer.println("# "+comments.get(key));
+			writer.println(key+"="+floatSettings.get(key));
+		}
+		
+		writer.flush();
+		writer.close();
 	}
 }
