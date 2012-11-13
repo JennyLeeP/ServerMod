@@ -41,6 +41,7 @@ public class ServerMod {
 		event.registerServerCommand(new CommandSay());
 		
 		settings.addSetting("require-op-tps", false, "Require op for the /tps command");
+		settings.addSetting("enable-motd", true, "Send a message when users log on");
 		
 		try {
 			settings.load();
@@ -51,6 +52,10 @@ public class ServerMod {
 			settings.save();
 		} catch (Throwable e) {
 			log.log(Level.WARNING, "Failed to save the configuration file", e);
+		}
+		
+		if (settings.getBoolean("enable-motd")) {
+			new Motd();
 		}
 	}
 }
