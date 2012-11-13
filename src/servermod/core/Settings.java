@@ -19,6 +19,7 @@ public class Settings {
 	
 	public Settings(File file, String comment) {
 		this.file = file;
+		file.getParentFile().mkdirs();
 		this.comment = comment;
 	}
 	
@@ -93,12 +94,12 @@ public class Settings {
 				writer.println("# "+line);
 			}
 			
-			writer.print("#########################");
+			writer.println("#########################");
 		}
 		
 		for (String key : stringSettings.keySet()) {
 			if (comments.containsKey(key)) writer.println("# "+comments.get(key));
-			writer.println(key+"="+stringSettings.get(key));
+			writer.println(key+"="+stringSettings.get(key)+"\n");
 		}
 		for (String key : booleanSettings.keySet()) {
 			if (comments.containsKey(key)) writer.println("# "+comments.get(key));

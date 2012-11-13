@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 
 import servermod.core.ServerMod;
 import net.minecraft.src.ICommandSender;
+import net.minecraft.src.PlayerNotFoundException;
 import net.minecraft.src.World;
 import net.minecraft.src.WrongUsageException;
 
@@ -31,8 +32,8 @@ public class CommandTps extends Command {
 			double tps = getTps(null);
 			
 			var1.sendChatToPlayer("Overall server tick");
-			var1.sendChatToPlayer("TPS: "+floatfmt.format(tps)+" TPS of "+MAX_TPS+" TPS ("+(int)((tps / MAX_TPS) * 100)+")");
-			var1.sendChatToPlayer("Tick time: "+floatfmt.format(tickms)+" ms of "+MIN_TICKMS+" ms");
+			var1.sendChatToPlayer("TPS: "+floatfmt.format(tps)+" TPS of "+floatfmt.format(MAX_TPS)+" TPS ("+(int)((tps / MAX_TPS) * 100)+"%)");
+			var1.sendChatToPlayer("Tick time: "+floatfmt.format(tickms)+" ms of "+floatfmt.format(MIN_TICKMS)+" ms");
 		} else {
 			int dim;
 			try {
@@ -42,12 +43,14 @@ public class CommandTps extends Command {
 			}
 			
 			World world = ServerMod.server.worldServerForDimension(dim);
+			if (world == null) throw new PlayerNotFoundException("World not found");
+			
 			double tickms = getTickMs(world);
 			double tps = getTps(world);
 			
 			var1.sendChatToPlayer("World "+world.provider.dimensionId+": "+world.provider.getDimensionName());
-			var1.sendChatToPlayer("TPS: "+floatfmt.format(tps)+" TPS of "+MAX_TPS+" TPS ("+(int)((tps / MAX_TPS) * 100)+")");
-			var1.sendChatToPlayer("Tick time: "+floatfmt.format(tickms)+" ms of "+MIN_TICKMS+" ms");
+			var1.sendChatToPlayer("TPS: "+floatfmt.format(tps)+" TPS of "+floatfmt.format(MAX_TPS)+" TPS ("+(int)((tps / MAX_TPS) * 100)+"%)");
+			var1.sendChatToPlayer("Tick time: "+floatfmt.format(tickms)+" ms of "+floatfmt.format(MIN_TICKMS)+" ms");
 		}
 	}
 	
