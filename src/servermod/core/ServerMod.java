@@ -5,9 +5,8 @@ import java.util.logging.Logger;
 import net.minecraft.server.MinecraftServer;
 
 import servermod.api.provider.Registry;
-import servermod.provider.PastebinCom;
-import servermod.provider.PastebinStikked;
-import servermod.provider.PastebinUbuntu;
+import servermod.command.*;
+import servermod.provider.*;
 
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
@@ -34,5 +33,7 @@ public class ServerMod {
 		Registry.registerPastebinProvider("pastebin", new PastebinCom());
 		Registry.registerPastebinProvider("forge", new PastebinStikked("http://paste.minecraftforge.net/api"));
 		Registry.registerPastebinProvider("ubuntu", new PastebinUbuntu());
+		
+		event.registerServerCommand(new CommandKill());
 	}
 }
