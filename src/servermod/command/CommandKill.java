@@ -16,10 +16,10 @@ public class CommandKill extends Command {
 	}
 
 	@Override
-	public void processCommand(ICommandSender var1, String[] var2) {
-		EntityPlayer player = var2.length < 1 ? getCommandSenderAsPlayer(var1) : ServerMod.server.getConfigurationManager().getPlayerForUsername(var1.getCommandSenderName());
+	public void processCommand(ICommandSender var1, String[] var2) {System.out.println(var1+" "+var2.length+" "+(var2.length > 0 ? var2[0] : "NONE"));
+		EntityPlayer player = var2.length < 1 ? getCommandSenderAsPlayer(var1) : ServerMod.server.getConfigurationManager().getPlayerForUsername(var2[0]);
 		if (player == null) throw new PlayerNotFoundException();
-		
+		System.out.println(var1+" "+player+" "+var2.length+" "+(var2.length > 0 ? var2[0] : "NONE"));
 		if (var1 != player && !var1.canCommandSenderUseCommand(2, name)) {
 			var1.sendChatToPlayer("\u00a7cYou do not have permission to use this command.");
 			return;
@@ -31,6 +31,16 @@ public class CommandKill extends Command {
 		notifyAdmins(var1, "Killing "+player.username);
 	}
 	
+	@Override
+	public int getRequiredPermissionLevel() {
+		return 0;
+	}
+	
+	@Override
+	public boolean isUsernameIndex(int var1) {
+		return var1 == 0;
+	}
+	
 	public static class ForcedDamageSource extends DamageSource {
 		public static final ForcedDamageSource forced = new ForcedDamageSource("generic");
 		
@@ -39,7 +49,7 @@ public class CommandKill extends Command {
 		}
 		
 		public static ForcedEntityDamageSource causeEntityDamage(Entity entity) {
-			return new ForcedEntityDamageSource("generic", entity);
+			return new ForcedEntityDamageSource("indirectMagic", entity);
 		}
 		
 		static {
