@@ -1,9 +1,19 @@
 package servermod.worldedit;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import servermod.core.Settings;
+import servermod.core.Util;
 
 import com.sk89q.worldedit.WorldVector;
 
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.NetHandler;
@@ -25,19 +35,54 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 public class WorldEdit implements IChatListener {
 	@Instance("ServerMod|WorldEdit")
 	public static WorldEdit instance;
+	public static MinecraftServer server;
+	
+	protected Logger log = Logger.getLogger("ServerMod WorldEdit");
+	protected Settings settings = new Settings(new File(new File("servermod", "config"), "worldedit.cfg"), "ServerMod WorldEdit configuration file");
 	
 	protected com.sk89q.worldedit.WorldEdit we;
 	private Configuration config;
 	
-	private WeakHashMap<EntityPlayer, LocalPlayer> players = new WeakHashMap<EntityPlayer, LocalPlayer>();
-	private WeakHashMap<World, LocalWorld> worlds = new WeakHashMap<World, LocalWorld>();
-	private WeakHashMap<Entity, LocalEntity> entities = new WeakHashMap<Entity, LocalEntity>();
+	protected List<String> whitelist = new ArrayList<String>();
+	private Map<EntityPlayer, LocalPlayer> players = new WeakHashMap<EntityPlayer, LocalPlayer>();
+	private Map<World, LocalWorld> worlds = new WeakHashMap<World, LocalWorld>();
+	private Map<Entity, LocalEntity> entities = new WeakHashMap<Entity, LocalEntity>();
 	
 	@ServerStarting
 	public void onServerStarting(FMLServerStartingEvent event) {
-		config = new Configuration();
-		config.load();
-		we = new com.sk89q.worldedit.WorldEdit(new ServerInterface(), config);
+		server = event.getServer();
+		
+		try {
+			config = new Configuration();
+			config.load();
+			we = new com.sk89q.worldedit.WorldEdit(new ServerInterface(), config);
+		} catch (Throwable e) {
+			log.log(Level.SEVERE, "Failed to initialize WorldEdit. Ensure WorldEdit.jar is in the lib folder");
+			return;
+		}
+		
+		settings.addSetting("enable-whitelist", false, "Use servermod/worldedit-whitelist.txt as a list of users capable of using WorldEdit, instead of all ops");
+		
+		try {
+			settings.load();
+		} catch (Throwable e) {
+			log.log(Level.WARNING, "Failed to load the configuration file", e);
+		}
+		try {
+			settings.save();
+		} catch (Throwable e) {
+			log.log(Level.WARNING, "Failed to save the configuration file", e);
+		}
+		
+		if (settings.getBoolean("enable-whitelist")) {
+			try {
+				for (String user : Util.readFileToString(new File("servermod", "worldedit-whitelist.txt")).split("\n")) {
+					whitelist.add(user.toLowerCase());
+				}
+			} catch (Throwable e) {
+				log.log(Level.WARNING, "Failed to load the WorldEdit whitelist", e);
+			}
+		}
 		
 		MinecraftForge.EVENT_BUS.register(this);
 		
