@@ -30,4 +30,9 @@ public class CommandSmite extends Command {
 	public boolean isUsernameIndex(int var1) {
 		return var1 == 0;
 	}
+
+	@Override
+	public String getCommandUsage(ICommandSender var1) {
+		return "/"+name+" [player]";
+	}
 }

@@ -27,7 +27,7 @@ public class CommandHeal extends Command {
 			 } catch (NumberFormatException e) {
 				 player = ServerMod.server.getConfigurationManager().getPlayerForUsername(var2[0]);
 			 }
-		 } else if (var2.length == 2) {
+		 } else if (var2.length > 1) {
 			 player = ServerMod.server.getConfigurationManager().getPlayerForUsername(var2[0]);
 			 amount = parseInt(var1, var2[1]);
 		 }
@@ -47,5 +47,10 @@ public class CommandHeal extends Command {
 	@Override
 	public int getRequiredPermissionLevel() {
 		return 2;
+	}
+
+	@Override
+	public String getCommandUsage(ICommandSender var1) {
+		return "/"+name+" [player] [amount]";
 	}
 }

@@ -37,6 +37,11 @@ public class CommandInventory extends Command {
 	public int getRequiredPermissionLevel() {
 		return 4;
 	}
+
+	@Override
+	public String getCommandUsage(ICommandSender var1) {
+		return "/"+name+" player";
+	}
 	
 	public static class InventoryPlayerWrapper implements IInventory {
 		private EntityPlayerMP viewer;

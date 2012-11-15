@@ -40,6 +40,11 @@ public class CommandKill extends Command {
 	public boolean isUsernameIndex(int var1) {
 		return var1 == 0;
 	}
+
+	@Override
+	public String getCommandUsage(ICommandSender var1) {
+		return "/"+name+" [player]";
+	}
 	
 	public static class ForcedDamageSource extends DamageSource {
 		public static final ForcedDamageSource forced = new ForcedDamageSource("generic");

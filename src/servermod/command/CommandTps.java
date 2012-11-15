@@ -39,7 +39,7 @@ public class CommandTps extends Command {
 			try {
 				dim = Integer.parseInt(var2[0]);
 			} catch (Throwable e) {
-				throw new WrongUsageException("/"+name+" [worldid|{o}]");
+				throw showUsage(var1);
 			}
 			
 			World world = ServerMod.server.worldServerForDimension(dim);
@@ -57,6 +57,11 @@ public class CommandTps extends Command {
 	@Override
 	public int getRequiredPermissionLevel() {
 		return ServerMod.instance.settings.getBoolean("require-op-tps") ? 2 : 0;
+	}
+
+	@Override
+	public String getCommandUsage(ICommandSender var1) {
+		return "/"+name+" [worldid|{o}]";
 	}
 	
 	private double getTickTimeSum(long[] times) {

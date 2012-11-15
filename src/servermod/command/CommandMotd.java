@@ -21,4 +21,9 @@ public class CommandMotd extends Command {
 	public int getRequiredPermissionLevel() {
 		return 0;
 	}
+
+	@Override
+	public String getCommandUsage(ICommandSender var1) {
+		return "/"+name;
+	}
 }
