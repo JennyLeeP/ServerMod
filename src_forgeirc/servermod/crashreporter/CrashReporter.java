@@ -1,7 +1,10 @@
 package servermod.crashreporter;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import servermod.core.ServerMod;
 import servermod.core.Util;
 
 import net.minecraft.server.MinecraftServer;
@@ -42,12 +45,33 @@ public class CrashReporter {
 			} catch (Throwable e) {
 				reportText = "Failed to read report: "+e;
 			}
-		} else if (report instanceof Throwable) {
 			
+			String text;
+			try {
+				text = ServerMod.instance.pastebin.paste(reportText, "ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())));
+			} catch (Throwable e) {
+				text = "Failed to paste!";
+			}
+		} else if (report instanceof Throwable) {
+			String reportText = new CrashReport("Failed to save crash report", (Throwable)report).getCompleteReport();
+			
+			String text;
+			try {
+				text = ServerMod.instance.pastebin.paste(reportText, "ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())));
+			} catch (Throwable e) {
+				text = "Failed to paste!";
+			}
 		}
 	}
 	
 	public void handlePlayerCrash(String username, Throwable throwable) {
-		CrashReport report = new CrashReport("Exception while reading packet from user "+username, throwable);
+		String reportText = new CrashReport("Exception while reading packet from user "+username, throwable).getCompleteReport();
+		
+		String text;
+		try {
+			text = ServerMod.instance.pastebin.paste(reportText, "ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())));
+		} catch (Throwable e) {
+			text = "Failed to paste!";
+		}
 	}
 }

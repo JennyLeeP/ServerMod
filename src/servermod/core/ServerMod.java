@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.server.MinecraftServer;
 
+import servermod.api.provider.PastebinProvider;
 import servermod.api.provider.Registry;
 import servermod.command.*;
 import servermod.provider.*;
@@ -26,6 +27,7 @@ public class ServerMod {
 	
 	public Logger log = Logger.getLogger("ServerMod");
 	public Settings settings = new Settings(new File(new File("servermod", "config"), "servermod.cfg"), "ServerMod Core configuration file");
+	public PastebinProvider pastebin;
 	
 	@ServerStarting
 	public void onServerStarting(FMLServerStartingEvent event) {
@@ -40,6 +42,7 @@ public class ServerMod {
 		event.registerServerCommand(new CommandTps());
 		event.registerServerCommand(new CommandSay());
 		
+		settings.addSetting("provider-pastebin", "forge", "Pastebin to use as default. Pastebins supported by default: pastebin forge ubuntu");
 		settings.addSetting("require-op-tps", false, "Require op for the /tps command");
 		settings.addSetting("enable-motd", true, "Send a message when users log on");
 		
@@ -52,6 +55,12 @@ public class ServerMod {
 			settings.save();
 		} catch (Throwable e) {
 			log.log(Level.WARNING, "Failed to save the configuration file", e);
+		}
+		
+		pastebin = Registry.getPastebinProvider(settings.getString("provider-pastebin"));
+		if (pastebin == null) {
+			pastebin = Registry.getPastebinProvider("forge");
+			log.log(Level.WARNING, "Unknown pastebin provider: "+settings.getString("provider-pastebin"));
 		}
 		
 		if (settings.getBoolean("enable-motd")) {
