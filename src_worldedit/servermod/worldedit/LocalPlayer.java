@@ -71,7 +71,7 @@ public class LocalPlayer extends com.sk89q.worldedit.LocalPlayer {
 
 	@Override
 	public boolean hasPermission(String arg0) {
-		return WorldEdit.instance.settings.getBoolean("enable-whitelist") ? WorldEdit.instance.whitelist.contains(arg0.toLowerCase()) : WorldEdit.instance.server.getConfigurationManager().areCommandsAllowed(arg0);
+		return WorldEdit.instance.settings.getBoolean("enable-whitelist") ? WorldEdit.instance.whitelist.contains(player.username.toLowerCase()) : WorldEdit.instance.server.getConfigurationManager().areCommandsAllowed(player.username);
 	}
 
 	@Override
