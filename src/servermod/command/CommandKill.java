@@ -19,8 +19,8 @@ public class CommandKill extends Command {
 	public void processCommand(ICommandSender var1, String[] var2) {System.out.println(var1+" "+var2.length+" "+(var2.length > 0 ? var2[0] : "NONE"));
 		EntityPlayer player = var2.length < 1 ? getCommandSenderAsPlayer(var1) : ServerMod.server.getConfigurationManager().getPlayerForUsername(var2[0]);
 		if (player == null) throw new PlayerNotFoundException();
-		System.out.println(var1+" "+player+" "+var2.length+" "+(var2.length > 0 ? var2[0] : "NONE"));
-		if (var1 != player && !var1.canCommandSenderUseCommand(2, name)) {
+		
+		if (var1 != player && !var1.canCommandSenderUseCommand(2, name)) { // hack!
 			var1.sendChatToPlayer("\u00a7cYou do not have permission to use this command.");
 			return;
 		}
