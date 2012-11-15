@@ -42,6 +42,7 @@ public class WorldEdit implements IChatListener {
 	
 	protected com.sk89q.worldedit.WorldEdit we;
 	private Configuration config;
+	protected ServerInterface serverInterface;
 	
 	protected List<String> whitelist = new ArrayList<String>();
 	private Map<EntityPlayer, LocalPlayer> players = new WeakHashMap<EntityPlayer, LocalPlayer>();

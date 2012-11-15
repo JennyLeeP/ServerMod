@@ -188,7 +188,7 @@ public class LocalWorld extends com.sk89q.worldedit.LocalWorld {
 	@Override
 	public BiomeType getBiome(Vector2D arg0) {
 		try {
-			return new BiomeTypes().get(world.getBiomeGenForCoords(arg0.getBlockX(), arg0.getBlockZ()).biomeName);
+			return WorldEdit.instance.serverInterface.getBiomes().get(world.getBiomeGenForCoords(arg0.getBlockX(), arg0.getBlockZ()).biomeName);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

@@ -8,9 +8,15 @@ import com.sk89q.worldedit.BiomeTypes;
 import cpw.mods.fml.common.registry.TickRegistry;
 
 public class ServerInterface extends com.sk89q.worldedit.ServerInterface {
+	private final servermod.worldedit.BiomeTypes biomeTypes;
+	
+	public ServerInterface() {
+		this.biomeTypes = new servermod.worldedit.BiomeTypes();
+	}
+	
 	@Override
 	public BiomeTypes getBiomes() {
-		return new servermod.worldedit.BiomeTypes();
+		return biomeTypes;
 	}
 
 	@Override
