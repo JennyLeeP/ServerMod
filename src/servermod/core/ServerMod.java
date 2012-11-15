@@ -24,6 +24,7 @@ public class ServerMod {
 	@Instance("ServerMod")
 	public static ServerMod instance;
 	public static MinecraftServer server;
+	public static boolean firstStart = true;
 	
 	public Logger log = Logger.getLogger("ServerMod");
 	public Settings settings = new Settings(new File(new File("servermod", "config"), "servermod.cfg"), "ServerMod Core configuration file");
@@ -34,9 +35,11 @@ public class ServerMod {
 		server = event.getServer();
 		log.setParent(FMLLog.getLogger());
 		
-		Registry.registerPastebinProvider("pastebin", new PastebinCom());
-		Registry.registerPastebinProvider("forge", new PastebinStikked("http://paste.minecraftforge.net/api"));
-		Registry.registerPastebinProvider("ubuntu", new PastebinUbuntu());
+		if (firstStart) {
+			Registry.registerPastebinProvider("pastebin", new PastebinCom());
+			Registry.registerPastebinProvider("forge", new PastebinStikked("http://paste.minecraftforge.net/api"));
+			Registry.registerPastebinProvider("ubuntu", new PastebinUbuntu());
+		}
 		
 		event.registerServerCommand(new CommandKill());
 		event.registerServerCommand(new CommandTps());
@@ -63,8 +66,10 @@ public class ServerMod {
 			log.log(Level.WARNING, "Unknown pastebin provider: "+settings.getString("provider-pastebin"));
 		}
 		
-		if (settings.getBoolean("enable-motd")) {
+		if (firstStart && settings.getBoolean("enable-motd")) {
 			new Motd();
 		}
+		
+		firstStart = false;
 	}
 }
