@@ -31,7 +31,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.IChatListener;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
-@Mod(modid = "ServerMod|WorldEdit", name = "ServerMod WorldEdit", version = "1.0", dependencies = "after:ServerMod")
+@Mod(modid = "ServerMod|WorldEdit", name = "ServerMod WorldEdit", version = "1.0", dependencies = "required-after:ServerMod")
 public class WorldEdit implements IChatListener {
 	@Instance("ServerMod|WorldEdit")
 	public static WorldEdit instance;
