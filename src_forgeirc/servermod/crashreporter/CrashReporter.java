@@ -6,6 +6,7 @@ import java.util.Date;
 
 import servermod.core.ServerMod;
 import servermod.core.Util;
+import servermod.forgeirc.ForgeIRCHelper;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.CrashReport;
@@ -29,6 +30,8 @@ public class CrashReporter {
 		
 		MinecraftServer.logger.addHandler(new ServerLogHandler());
 		FMLLog.getLogger().addHandler(new FMLLogHandler());
+		
+		ForgeIRCHelper.init();
 	}
 	
 	public void handleServerCrash(Object report) {
@@ -52,6 +55,8 @@ public class CrashReporter {
 			} catch (Throwable e) {
 				text = "Failed to paste!";
 			}
+			
+			ForgeIRCHelper.sendMessage("\u0002General server crash:\u0002 "+text);
 		} else if (report instanceof Throwable) {
 			String reportText = new CrashReport("Failed to save crash report", (Throwable)report).getCompleteReport();
 			
@@ -61,6 +66,8 @@ public class CrashReporter {
 			} catch (Throwable e) {
 				text = "Failed to paste!";
 			}
+			
+			ForgeIRCHelper.sendMessage("\u0002General server crash, failed to save report:\u0002 "+text);
 		}
 	}
 	
@@ -73,5 +80,7 @@ public class CrashReporter {
 		} catch (Throwable e) {
 			text = "Failed to paste!";
 		}
+		
+		ForgeIRCHelper.sendMessage("\u0002Player crash for "+username+":\u0002 "+text);
 	}
 }
