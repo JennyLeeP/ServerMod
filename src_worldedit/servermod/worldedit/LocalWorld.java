@@ -30,8 +30,10 @@ import net.minecraft.src.WorldGenBigTree;
 import net.minecraft.src.WorldGenForest;
 import net.minecraft.src.WorldGenHugeTrees;
 import net.minecraft.src.WorldGenTrees;
+import net.minecraft.src.WorldServer;
 
 import com.sk89q.worldedit.BiomeType;
+import com.sk89q.worldedit.BlockVector2D;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.EntityType;
 import com.sk89q.worldedit.UnknownBiomeTypeException;
@@ -331,8 +333,14 @@ public class LocalWorld extends com.sk89q.worldedit.LocalWorld {
 		return ret.toArray(new LocalEntity[0]);
 	}
 	
-	public int killEntities(LocalEntity... entities) {
-		for (LocalEntity entity : entities) entity.entity.setDead();
+	@Override
+	public int killEntities(com.sk89q.worldedit.LocalEntity... entities) {
+		for (com.sk89q.worldedit.LocalEntity entity : entities) ((LocalEntity)entity).entity.setDead();
 		return entities.length;
 	}
+	
+	@Override
+	public void fixAfterFastMode(Iterable<BlockVector2D> chunks) {
+		for (BlockVector2D chunk : chunks) ((WorldServer)world).getPlayerManager().flagChunkForUpdate(chunk.getBlockX(), 0, chunk.getBlockZ());
+    }
 }

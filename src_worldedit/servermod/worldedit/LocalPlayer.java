@@ -2,6 +2,7 @@ package servermod.worldedit;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.ItemPickaxe;
 import net.minecraft.src.ItemStack;
 
 import com.sk89q.worldedit.LocalWorld;
@@ -13,12 +14,14 @@ import com.sk89q.worldedit.bags.BlockBag;
 public class LocalPlayer extends com.sk89q.worldedit.LocalPlayer {
 	private final EntityPlayer player;
 	private final servermod.worldedit.LocalWorld world;
+	private final servermod.worldedit.BlockBag bag;
 	
 	public LocalPlayer(EntityPlayer player) {
 		super(new servermod.worldedit.ServerInterface());
 		
 		this.player = player;
 		this.world = WorldEdit.instance.getWorld(player.worldObj);
+		this.bag = new servermod.worldedit.BlockBag(player);
 	}
 
 	@Override
@@ -28,7 +31,7 @@ public class LocalPlayer extends com.sk89q.worldedit.LocalPlayer {
 
 	@Override
 	public BlockBag getInventoryBlockBag() {
-		return null;
+		return bag;
 	}
 
 	@Override
@@ -102,5 +105,10 @@ public class LocalPlayer extends com.sk89q.worldedit.LocalPlayer {
 	@Override
 	public void setPosition(Vector arg0, float arg1, float arg2) {
 		player.setPositionAndRotation(arg0.getX(), arg0.getY(), arg0.getZ(), arg1, arg2);
+	}
+	
+	@Override
+	public boolean isHoldingPickAxe() {
+		return player.inventory.mainInventory[player.inventory.currentItem] != null && player.inventory.mainInventory[player.inventory.currentItem].getItem() instanceof ItemPickaxe;
 	}
 }
