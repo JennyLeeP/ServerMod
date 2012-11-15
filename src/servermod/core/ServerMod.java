@@ -50,10 +50,12 @@ public class ServerMod {
 		event.registerServerCommand(new CommandHeal());
 		event.registerServerCommand(new CommandKillall());
 		event.registerServerCommand(new CommandSpawnMob());
+		event.registerServerCommand(new CommandSpawn());
 		
 		settings.addSetting("provider-pastebin", "forge", "Pastebin to use as default. Pastebins supported by default: pastebin forge ubuntu");
 		settings.addSetting("require-op-tps", false, "Require op for the /tps command");
 		settings.addSetting("require-op-kill-self", false, "Require op for using /kill on yourself");
+		settings.addSetting("require-op-spawn", false, "Require op for the /spawn command");
 		settings.addSetting("enable-motd", true, "Send a message when users log on");
 		
 		try {
