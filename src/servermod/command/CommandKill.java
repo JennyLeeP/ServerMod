@@ -20,7 +20,7 @@ public class CommandKill extends Command {
 		EntityPlayer player = var2.length < 1 ? getCommandSenderAsPlayer(var1) : ServerMod.server.getConfigurationManager().getPlayerForUsername(var2[0]);
 		if (player == null) throw new PlayerNotFoundException();
 		
-		if (var1 != player && !var1.canCommandSenderUseCommand(2, name)) { // hack!
+		if ((var1 != player || ServerMod.instance.settings.getBoolean("require-op-kill-self")) && !var1.canCommandSenderUseCommand(2, name)) { // hack!
 			var1.sendChatToPlayer("\u00a7cYou do not have permission to use this command.");
 			return;
 		}
