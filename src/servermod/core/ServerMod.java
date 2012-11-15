@@ -48,6 +48,7 @@ public class ServerMod {
 		event.registerServerCommand(new CommandInventory());
 		event.registerServerCommand(new CommandDisarm());
 		event.registerServerCommand(new CommandHeal());
+		event.registerServerCommand(new CommandKillall());
 		
 		settings.addSetting("provider-pastebin", "forge", "Pastebin to use as default. Pastebins supported by default: pastebin forge ubuntu");
 		settings.addSetting("require-op-tps", false, "Require op for the /tps command");

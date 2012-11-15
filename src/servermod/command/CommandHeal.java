@@ -43,4 +43,9 @@ public class CommandHeal extends Command {
 		 
 		 notifyAdmins(var1, "Healed "+player.username+" by "+amount);
 	}
+	
+	@Override
+	public int getRequiredPermissionLevel() {
+		return 2;
+	}
 }
