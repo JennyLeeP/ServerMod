@@ -52,6 +52,7 @@ public class WorldEdit implements IChatListener {
 	@ServerStarting
 	public void onServerStarting(FMLServerStartingEvent event) {
 		server = event.getServer();
+		Loader.instance().getIndexedModList().get("ServerMod|WorldEdit").getMetadata().parent = "ServerMod";
 		
 		try {
 			config = new Configuration();

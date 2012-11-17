@@ -13,6 +13,7 @@ import net.minecraft.src.CrashReport;
 import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.ServerConfigurationManager;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.ServerStarting;
@@ -27,6 +28,7 @@ public class CrashReporter {
 	@ServerStarting
 	public void onServerStarting(FMLServerStartingEvent event) {
 		server = event.getServer();
+		Loader.instance().getIndexedModList().get("ServerMod|CrashReporter").getMetadata().parent = "ServerMod";
 		
 		MinecraftServer.logger.addHandler(new ServerLogHandler());
 		FMLLog.getLogger().addHandler(new FMLLogHandler());
