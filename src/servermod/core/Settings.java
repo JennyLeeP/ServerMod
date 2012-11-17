@@ -68,7 +68,7 @@ public class Settings {
 			
 			int separator = line.indexOf('=');
 			if (separator == -1) continue; // not a valid setting
-			String key = line.substring(0, separator - 1);
+			String key = line.substring(0, separator);
 			if (key.isEmpty()) continue; // not valid either
 			String value = line.substring(separator + 1);
 			
