@@ -2,6 +2,7 @@ package servermod.worldedit;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityList;
+import net.minecraft.src.EntityLiving;
 
 import com.sk89q.worldedit.BiomeTypes;
 
@@ -21,7 +22,7 @@ public class ServerInterface extends com.sk89q.worldedit.ServerInterface {
 
 	@Override
 	public boolean isValidMobType(String arg0) {
-		return EntityList.stringToClassMapping.containsKey(arg0);
+		return EntityList.stringToClassMapping.containsKey(arg0) && EntityLiving.class.isAssignableFrom((Class)EntityList.stringToClassMapping.get(arg0));
 	}
 
 	@Override
