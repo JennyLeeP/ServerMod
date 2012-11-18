@@ -37,7 +37,7 @@ public class WorldEdit implements IChatListener {
 	public static WorldEdit instance;
 	public static MinecraftServer server;
 	
-	protected Logger log = Logger.getLogger("ServerMod WorldEdit");
+	protected Logger log = Logger.getLogger("ServerMod");
 	protected Settings settings = new Settings(new File(new File("servermod", "config"), "worldedit.cfg"), "ServerMod WorldEdit configuration file");
 	
 	protected com.sk89q.worldedit.WorldEdit we;

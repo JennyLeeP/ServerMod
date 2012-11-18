@@ -39,9 +39,9 @@ public class ForgeHelper implements IChatListener {
 	@ForgeSubscribe
 	public void onServerChat(ServerChatEvent event) {
 		if (event.message.startsWith("\u00bcworldedit\u00bc")) {
+			event.setCanceled(true);
 			WorldEdit.instance.we.handleCommand(WorldEdit.instance.getPlayer(event.player), event.message.substring(11).split(" "));
 		}
-		event.setCanceled(true);
 	}
 
 	@Override
