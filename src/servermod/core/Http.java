@@ -17,23 +17,29 @@ import net.minecraft.src.HttpUtil;
 public class Http {
 	public static Response post(URL url, Map<String, String> postData) throws IOException {
 		try {
-			String data = HttpUtil.buildPostString(postData);
-		
+			String data = "";
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("POST");
-			connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			connection.setRequestProperty("Content-Length", ""+data.getBytes().length);
-			connection.setRequestProperty("Content-Language", "en-US");
+			
+			if (postData != null) {
+				data = HttpUtil.buildPostString(postData);
+				
+				connection.setRequestMethod("POST");
+				connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+				connection.setRequestProperty("Content-Length", ""+data.getBytes().length);
+				connection.setRequestProperty("Content-Language", "en-US");
+			}
 			Loader loader = Loader.instance();
 			connection.setRequestProperty("User-Agent", "ServerMod/"+ServerMod.VERSION+" "+loader.getMCVersionString().replace(' ', '/')+" "+loader.getFMLVersionString().replace(' ', '/'));
 			connection.setUseCaches(false);
 			connection.setDoInput(true);
-			connection.setDoOutput(true);
 			
-			DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-			out.writeBytes(data);
-			out.flush();
-			out.close();
+			if (postData != null) {
+				connection.setDoOutput(true);
+				DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+				out.writeBytes(data);
+				out.flush();
+				out.close();
+			}
 			
 			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			String text = "";
