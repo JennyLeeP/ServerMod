@@ -18,8 +18,8 @@ public class CommandMotd extends Command {
 	}
 	
 	@Override
-	public int getRequiredPermissionLevel() {
-		return 0;
+	public boolean canCommandSenderUseCommand(ICommandSender var1) {
+		return true;
 	}
 
 	@Override

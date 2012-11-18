@@ -32,8 +32,8 @@ public class CommandKill extends Command {
 	}
 	
 	@Override
-	public int getRequiredPermissionLevel() {
-		return 0;
+	public boolean canCommandSenderUseCommand(ICommandSender var1) {
+		return ServerMod.instance.settings.getBoolean("require-op-kill-self") ? super.canCommandSenderUseCommand(var1) : true;
 	}
 	
 	@Override

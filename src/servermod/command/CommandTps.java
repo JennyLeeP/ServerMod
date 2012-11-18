@@ -55,8 +55,8 @@ public class CommandTps extends Command {
 	}
 	
 	@Override
-	public int getRequiredPermissionLevel() {
-		return ServerMod.instance.settings.getBoolean("require-op-tps") ? 2 : 0;
+	public boolean canCommandSenderUseCommand(ICommandSender var1) {
+		return ServerMod.instance.settings.getBoolean("require-op-tps") ? super.canCommandSenderUseCommand(var1) : true;
 	}
 
 	@Override
