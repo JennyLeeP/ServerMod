@@ -48,4 +48,9 @@ public class CommandKillall extends Command {
 	public String getCommandUsage(ICommandSender var1) {
 		return "/"+name+" type";
 	}
+	
+	@Override
+	public List addTabCompletionOptions(ICommandSender var1, String[] var2) {
+        return var2.length >= 1 ? getListOfStringsMatchingLastWord(var2, (String[])EntityList.classToStringMapping.values().toArray(new String[0])) : null;
+    }
 }
