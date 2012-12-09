@@ -51,6 +51,9 @@ public class CommandTps extends Command {
 			var1.sendChatToPlayer("World "+world.provider.dimensionId+": "+world.provider.getDimensionName());
 			var1.sendChatToPlayer("TPS: "+floatfmt.format(tps)+" TPS of "+floatfmt.format(MAX_TPS)+" TPS ("+(int)((tps / MAX_TPS) * 100)+"%)");
 			var1.sendChatToPlayer("Tick time: "+floatfmt.format(tickms)+" ms of "+floatfmt.format(MIN_TICKMS)+" ms");
+			var1.sendChatToPlayer("Loaded chunks: "+world.getChunkProvider().getLoadedChunkCount());
+			var1.sendChatToPlayer("Entities: "+world.loadedEntityList.size());
+			var1.sendChatToPlayer("Tile entities: "+world.loadedTileEntityList.size());
 		}
 	}
 	
