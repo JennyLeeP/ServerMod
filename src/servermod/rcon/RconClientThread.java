@@ -78,6 +78,13 @@ public class RconClientThread extends Thread {
 			
 			String line;
 			while ((line = read.readLine()) != null) {
+				if (line.equalsIgnoreCase("exit")) {
+					write.println("Goodbye");
+					write.flush();
+					socket.close();
+					throw new IOException();
+				}
+				
 				Rcon.server.getCommandManager().executeCommand(new RconCommandSender(username, write), line);
 				write.print("> ");
 				write.flush();

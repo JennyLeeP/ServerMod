@@ -53,7 +53,7 @@ public class CrashReporter {
 			
 			String text;
 			try {
-				text = ServerMod.instance.pastebin.paste(reportText, "ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())));
+				text = ServerMod.instance.pastebin.paste("ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())), reportText);
 			} catch (Throwable e) {
 				text = "Failed to paste!";
 			}
@@ -64,7 +64,7 @@ public class CrashReporter {
 			
 			String text;
 			try {
-				text = ServerMod.instance.pastebin.paste(reportText, "ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())));
+				text = ServerMod.instance.pastebin.paste("ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())), reportText);
 			} catch (Throwable e) {
 				text = "Failed to paste!";
 			}
@@ -78,7 +78,7 @@ public class CrashReporter {
 		
 		String text;
 		try {
-			text = ServerMod.instance.pastebin.paste(reportText, "ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())));
+			text = ServerMod.instance.pastebin.paste("ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())), reportText);
 		} catch (Throwable e) {
 			text = "Failed to paste!";
 		}

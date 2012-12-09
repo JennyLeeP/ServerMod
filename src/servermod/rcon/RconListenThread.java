@@ -15,6 +15,8 @@ public class RconListenThread extends Thread {
 	@Override
 	public void run() {
 		while (true) {
+			if (socket.isClosed()) return;
+			
 			try {
 				RconClientThread thread = new RconClientThread(socket.accept());
 				thread.start();

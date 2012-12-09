@@ -19,6 +19,7 @@ import net.minecraft.src.EnumSkyBlock;
 import net.minecraft.src.IAnimals;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.IMob;
+import net.minecraft.src.INpc;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.TileEntityFurnace;
 import net.minecraft.src.TileEntityMobSpawner;
@@ -251,7 +252,7 @@ public class LocalWorld extends com.sk89q.worldedit.LocalWorld {
         for (Entity ent : (List<Entity>)world.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(arg1.getX() - arg2, arg1.getY() - arg2, arg1.getZ() - arg2, arg1.getX() + arg2, arg1.getY() + arg2, arg1.getZ() + arg2))) {
         	if (ent instanceof IMob ||
         		(killPets && ent instanceof EntityTameable) ||
-        		(killNPCs && ent instanceof EntityVillager) ||
+        		(killNPCs && ent instanceof INpc) ||
         		(killAnimals && ent instanceof IAnimals) ||
         		(killGolems && ent instanceof EntityGolem)
         		) {

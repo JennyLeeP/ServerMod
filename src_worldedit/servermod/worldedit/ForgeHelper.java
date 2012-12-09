@@ -20,6 +20,8 @@ public class ForgeHelper implements IChatListener {
 	
 	@ForgeSubscribe
 	public void onPlayerInteract(PlayerInteractEvent event) {
+		if (event.entity.worldObj.isRemote) return;
+		
 		switch (event.action) {
 			case LEFT_CLICK_BLOCK: {
 				WorldEdit.instance.we.handleBlockLeftClick(WorldEdit.instance.getPlayer(event.entityPlayer), new WorldVector(WorldEdit.instance.getWorld(event.entityPlayer.worldObj), event.x, event.y, event.z));
