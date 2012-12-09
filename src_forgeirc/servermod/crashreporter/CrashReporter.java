@@ -12,7 +12,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.CrashReport;
 import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.ServerConfigurationManager;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
@@ -31,7 +30,6 @@ public class CrashReporter {
 		Loader.instance().getIndexedModList().get("ServerMod|CrashReporter").getMetadata().parent = "ServerMod";
 		
 		MinecraftServer.logger.addHandler(new ServerLogHandler());
-		FMLLog.getLogger().addHandler(new FMLLogHandler());
 		
 		ForgeIRCHelper.init();
 	}

@@ -17,6 +17,8 @@ public class ServerLogHandler extends Handler {
 			CrashReporter.instance.handleServerCrash(new File(arg0.getMessage().substring(37)));
 		} else if (arg0.getMessage().startsWith("Could not save crash report to ")) {
 			CrashReporter.instance.handleServerCrash(arg0.getThrown());
+		} else if (arg0.getMessage().startsWith("Failed to handle packet for ")) {
+			CrashReporter.instance.handlePlayerCrash(arg0.getMessage().split(" ")[5].split("/")[0], arg0.getThrown());
 		}
 	}
 }
