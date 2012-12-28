@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.src.HttpUtil;
+import net.minecraft.util.HttpUtil;
 
 import servermod.api.provider.PastebinProvider;
 import servermod.api.provider.PastebinProvider.PasteException;

@@ -6,9 +6,9 @@ import java.util.logging.Level;
 
 import servermod.command.CommandMotd;
 
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.ServerCommandManager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.ServerCommandManager;
 import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.common.registry.GameRegistry;
 

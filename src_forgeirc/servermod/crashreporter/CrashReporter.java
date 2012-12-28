@@ -9,9 +9,9 @@ import servermod.core.Util;
 import servermod.forgeirc.ForgeIRCHelper;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.src.CrashReport;
-import net.minecraft.src.EntityPlayerMP;
-import net.minecraft.src.ServerConfigurationManager;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.management.ServerConfigurationManager;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;

@@ -3,10 +3,10 @@ package servermod.command;
 import servermod.command.CommandKill.EntityDummy;
 import servermod.command.CommandKill.ForcedDamageSource;
 import servermod.core.ServerMod;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.PlayerNotFoundException;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 
 public class CommandHeal extends Command {
 	public CommandHeal() {

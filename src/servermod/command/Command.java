@@ -1,8 +1,8 @@
 package servermod.command;
 
-import net.minecraft.src.CommandBase;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.WrongUsageException;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 
 public abstract class Command extends CommandBase {
 	public final String name;

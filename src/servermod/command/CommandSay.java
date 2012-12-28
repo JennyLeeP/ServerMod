@@ -1,9 +1,9 @@
 package servermod.command;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.Packet3Chat;
-import net.minecraft.src.WrongUsageException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.network.packet.Packet3Chat;
+import net.minecraft.command.WrongUsageException;
 
 public class CommandSay extends Command {
 	public CommandSay() {

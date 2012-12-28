@@ -1,10 +1,10 @@
 package servermod.command;
 
 import servermod.core.ServerMod;
-import net.minecraft.src.EntityLightningBolt;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.PlayerNotFoundException;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 
 public class CommandSmite extends Command {
 	public CommandSmite() {

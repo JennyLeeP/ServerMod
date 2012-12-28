@@ -1,7 +1,7 @@
 package servermod.worldedit;
 
-import net.minecraft.src.NetHandler;
-import net.minecraft.src.Packet3Chat;
+import net.minecraft.network.packet.NetHandler;
+import net.minecraft.network.packet.Packet3Chat;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.ServerChatEvent;

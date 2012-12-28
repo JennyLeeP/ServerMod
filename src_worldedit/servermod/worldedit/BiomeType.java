@@ -1,6 +1,6 @@
 package servermod.worldedit;
 
-import net.minecraft.src.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBase;
 
 public class BiomeType implements com.sk89q.worldedit.BiomeType {
 	protected BiomeGenBase biome;

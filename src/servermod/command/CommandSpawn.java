@@ -1,10 +1,10 @@
 package servermod.command;
 
 import servermod.core.ServerMod;
-import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.Entity;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.PlayerNotFoundException;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.entity.Entity;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 
 public class CommandSpawn extends Command {
 	public CommandSpawn() {

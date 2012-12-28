@@ -1,14 +1,14 @@
 package servermod.command;
 
 import servermod.core.ServerMod;
-import net.minecraft.src.DamageSource;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityDamageSource;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.PlayerNotFoundException;
-import net.minecraft.src.World;
+import net.minecraft.util.DamageSource;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.EntityDamageSource;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.command.PlayerNotFoundException;
+import net.minecraft.world.World;
 
 public class CommandKill extends Command {
 	public CommandKill() {

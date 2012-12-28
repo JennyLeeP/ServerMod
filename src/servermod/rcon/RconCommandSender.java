@@ -2,9 +2,9 @@ package servermod.rcon;
 
 import java.io.PrintWriter;
 
-import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.StatCollector;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.util.StatCollector;
 
 public class RconCommandSender implements ICommandSender {
 	private final String username;

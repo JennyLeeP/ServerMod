@@ -3,7 +3,7 @@ package servermod.worldedit;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.src.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBase;
 
 import com.sk89q.worldedit.UnknownBiomeTypeException;
 

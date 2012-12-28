@@ -3,10 +3,10 @@ package servermod.command;
 import java.text.DecimalFormat;
 
 import servermod.core.ServerMod;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.PlayerNotFoundException;
-import net.minecraft.src.World;
-import net.minecraft.src.WrongUsageException;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
+import net.minecraft.world.World;
+import net.minecraft.command.WrongUsageException;
 
 public class CommandTps extends Command {
 	private static DecimalFormat floatfmt = new DecimalFormat("##0.00");

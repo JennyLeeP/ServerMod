@@ -1,7 +1,7 @@
 package servermod.command;
 
 import servermod.core.Motd;
-import net.minecraft.src.ICommandSender;
+import net.minecraft.command.ICommandSender;
 
 public class CommandMotd extends Command {
 	private final Motd motd;

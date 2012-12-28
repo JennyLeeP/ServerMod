@@ -12,7 +12,7 @@ import java.util.logging.Level;
 
 import cpw.mods.fml.common.Loader;
 
-import net.minecraft.src.HttpUtil;
+import net.minecraft.util.HttpUtil;
 
 public class Http {
 	public static Response post(URL url, Map<String, String> postData) throws IOException {

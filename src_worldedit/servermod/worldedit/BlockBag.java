@@ -1,7 +1,7 @@
 package servermod.worldedit;
 
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 import com.sk89q.worldedit.WorldVector;
 import com.sk89q.worldedit.bags.BlockBagException;

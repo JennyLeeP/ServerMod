@@ -1,8 +1,8 @@
 package servermod.worldedit;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.EntityList;
-import net.minecraft.src.EntityLiving;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
 
 import com.sk89q.worldedit.BiomeTypes;
 

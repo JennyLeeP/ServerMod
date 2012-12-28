@@ -1,6 +1,6 @@
 package servermod.worldedit;
 
-import net.minecraft.src.Entity;
+import net.minecraft.entity.Entity;
 
 import com.sk89q.worldedit.Location;
 import com.sk89q.worldedit.Vector;

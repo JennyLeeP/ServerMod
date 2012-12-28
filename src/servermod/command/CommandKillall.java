@@ -5,13 +5,13 @@ import java.util.Set;
 
 import servermod.core.ServerMod;
 
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityList;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ICommandSender;
-import net.minecraft.src.PlayerNotFoundException;
-import net.minecraft.src.World;
-import net.minecraft.src.WrongUsageException;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
+import net.minecraft.world.World;
+import net.minecraft.command.WrongUsageException;
 
 public class CommandKillall extends Command {
 	public CommandKillall() {

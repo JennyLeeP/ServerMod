@@ -14,11 +14,11 @@ import servermod.core.Util;
 import com.sk89q.worldedit.WorldVector;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.NetHandler;
-import net.minecraft.src.Packet3Chat;
-import net.minecraft.src.World;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.packet.NetHandler;
+import net.minecraft.network.packet.Packet3Chat;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
