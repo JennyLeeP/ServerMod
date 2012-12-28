@@ -92,7 +92,9 @@ public class ServerMod {
 		for (int i = 0; i < pastebins.size(); i++) { // maintain order
 			PastebinProvider pastebin = pastebins.get(i);
 			try {
-				return pastebin.paste(title, text);
+				String result = pastebin.paste(title, text);
+				if (result == null) throw new PasteException("Null result");
+				else return result;
 			} catch (Throwable e) {
 				continue;
 			}

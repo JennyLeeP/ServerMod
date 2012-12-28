@@ -26,7 +26,7 @@ public class PastebinStikked implements PastebinProvider {
 		postvars.put("private", "1");
 		
 		try {
-			return Http.post(new URL(apiRoot+"/create"), postvars).text;
+			return Http.post(new URL(apiRoot+"/create"), postvars).text.replaceAll("\n", "");
 		} catch (Throwable e) {
 			throw new PasteException(e);
 		}

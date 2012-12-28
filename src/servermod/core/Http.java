@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
-
-import com.google.common.collect.ImmutableMap;
 
 import cpw.mods.fml.common.Loader;
 
@@ -66,7 +65,7 @@ public class Http {
 		
 		private Response(String text, Map<String, String> headers) {
 			this.text = text;
-			this.headers = ImmutableMap.copyOf(headers);
+			this.headers = Collections.unmodifiableMap(headers);
 		}
 	}
 }

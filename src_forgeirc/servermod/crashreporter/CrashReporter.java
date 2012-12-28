@@ -3,6 +3,7 @@ package servermod.crashreporter;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
 
 import servermod.core.ServerMod;
 import servermod.core.Util;
@@ -56,6 +57,7 @@ public class CrashReporter {
 				text = "Failed to paste! "+e.toString();
 			}
 			
+			ServerMod.instance.log.log(Level.INFO, "Server crash reported: "+text);
 			ForgeIRCHelper.sendMessage("\u0002General server crash:\u0002 "+text);
 		} else if (report instanceof Throwable) {
 			String reportText = new CrashReport("Failed to save crash report", (Throwable)report).getCompleteReport();
@@ -67,6 +69,7 @@ public class CrashReporter {
 				text = "Failed to paste! "+e.toString();
 			}
 			
+			ServerMod.instance.log.log(Level.INFO, "Server crash report failed to save: "+text);
 			ForgeIRCHelper.sendMessage("\u0002General server crash, failed to save report:\u0002 "+text);
 		}
 	}
@@ -81,6 +84,7 @@ public class CrashReporter {
 			text = "Failed to paste! "+e.toString();
 		}
 		
+		ServerMod.instance.log.log(Level.INFO, "Player crash reported: "+text);
 		ForgeIRCHelper.sendMessage("\u0002Player crash for "+username+":\u0002 "+text);
 	}
 	

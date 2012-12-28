@@ -23,7 +23,7 @@ public class PastebinCom implements PastebinProvider {
 		postvars.put("api_user_key", "");
 		
 		try {
-			return Http.post(new URL("http://pastebin.com/api/api_post.php"), postvars).text;
+			return Http.post(new URL("http://pastebin.com/api/api_post.php"), postvars).text.replaceAll("\n", "");
 		} catch (Throwable e) {
 			throw new PasteException(e);
 		}
