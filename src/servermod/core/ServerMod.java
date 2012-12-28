@@ -1,13 +1,16 @@
 package servermod.core;
 
 import java.io.File;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.server.MinecraftServer;
 
+import servermod.api.CallHandler;
 import servermod.api.provider.PastebinProvider;
 import servermod.api.provider.Registry;
+import servermod.api.provider.PastebinProvider.PasteException;
 import servermod.command.*;
 import servermod.provider.*;
 
@@ -35,6 +38,8 @@ public class ServerMod {
 		server = event.getServer();
 		log.setParent(FMLLog.getLogger());
 		
+		CallHandler.instance = new ServerModCallHandler();
+		
 		if (firstStart) {
 			Registry.registerPastebinProvider("pastebin", new PastebinCom());
 			Registry.registerPastebinProvider("forge", new PastebinStikked("http://paste.minecraftforge.net/api"));
@@ -52,7 +57,7 @@ public class ServerMod {
 		event.registerServerCommand(new CommandSpawnMob());
 		event.registerServerCommand(new CommandSpawn());
 		
-		settings.addSetting("provider-pastebin", "forge", "Pastebin to use as default. Pastebins supported by default: pastebin forge ubuntu");
+		settings.addSetting("provider-pastebin", "forge", "Pastebin to use as preferred. Pastebins supported by default: pastebin forge ubuntu");
 		settings.addSetting("require-op-tps", false, "Require op for the /tps command");
 		settings.addSetting("require-op-kill-self", false, "Require op for using /kill on yourself");
 		settings.addSetting("require-op-spawn", false, "Require op for the /spawn command");
@@ -80,5 +85,19 @@ public class ServerMod {
 		}
 		
 		firstStart = false;
+	}
+	
+	public String paste(String title, String text) throws PasteException {
+		List<PastebinProvider> pastebins = Registry.getProviders();
+		for (int i = 0; i < pastebins.size(); i++) { // maintain order
+			PastebinProvider pastebin = pastebins.get(i);
+			try {
+				return pastebin.paste(title, text);
+			} catch (Throwable e) {
+				continue;
+			}
+		}
+		
+		throw new PasteException("None of the registered pastebins could handle the paste request");
 	}
 }

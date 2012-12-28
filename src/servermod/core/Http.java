@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
+import com.google.common.collect.ImmutableMap;
+
 import cpw.mods.fml.common.Loader;
 
 import net.minecraft.util.HttpUtil;
@@ -64,7 +66,7 @@ public class Http {
 		
 		private Response(String text, Map<String, String> headers) {
 			this.text = text;
-			this.headers = headers;
+			this.headers = ImmutableMap.copyOf(headers);
 		}
 	}
 }

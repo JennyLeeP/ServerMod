@@ -1,7 +1,12 @@
 package servermod.api.provider;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import servermod.api.CallHandler;
 
 /**
  * Registry for API provider objects.
@@ -31,5 +36,18 @@ public class Registry {
 	 */
 	public static PastebinProvider getPastebinProvider(String id) {
 		return pastebinProviders.get(id);
+	}
+	
+	/**
+	 * Get a list of {@link PastebinProvider}s.
+	 * 
+	 * @return List of providers
+	 */
+	public static List<PastebinProvider> getProviders() {
+		List<PastebinProvider> providers = new ArrayList<PastebinProvider>(pastebinProviders.size());
+		providers.add(CallHandler.instance.getPastebin()); // priority over the preferred one
+		providers.addAll(pastebinProviders.values());
+		
+		return providers;
 	}
 }

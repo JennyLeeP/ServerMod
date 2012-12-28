@@ -51,9 +51,9 @@ public class CrashReporter {
 			
 			String text;
 			try {
-				text = ServerMod.instance.pastebin.paste("ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())), reportText);
+				text = ServerMod.instance.paste(getPasteTitle(), reportText);
 			} catch (Throwable e) {
-				text = "Failed to paste!";
+				text = "Failed to paste! "+e.toString();
 			}
 			
 			ForgeIRCHelper.sendMessage("\u0002General server crash:\u0002 "+text);
@@ -62,9 +62,9 @@ public class CrashReporter {
 			
 			String text;
 			try {
-				text = ServerMod.instance.pastebin.paste("ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())), reportText);
+				text = ServerMod.instance.paste(getPasteTitle(), reportText);
 			} catch (Throwable e) {
-				text = "Failed to paste!";
+				text = "Failed to paste! "+e.toString();
 			}
 			
 			ForgeIRCHelper.sendMessage("\u0002General server crash, failed to save report:\u0002 "+text);
@@ -76,11 +76,15 @@ public class CrashReporter {
 		
 		String text;
 		try {
-			text = ServerMod.instance.pastebin.paste("ServerMod Crash Report "+(new SimpleDateFormat().format(new Date())), reportText);
+			text = ServerMod.instance.paste(getPasteTitle(), reportText);
 		} catch (Throwable e) {
-			text = "Failed to paste!";
+			text = "Failed to paste! "+e.toString();
 		}
 		
 		ForgeIRCHelper.sendMessage("\u0002Player crash for "+username+":\u0002 "+text);
+	}
+	
+	private String getPasteTitle() {
+		return "ServerMod Crash Report "+(new SimpleDateFormat().format(new Date()));
 	}
 }
