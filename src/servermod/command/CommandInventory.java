@@ -141,7 +141,7 @@ public class CommandInventory extends Command {
 				return "Unknown";
 			}
 			
-			return player.username;
+			return "\u00a7c"+player.username;
 		}
 
 		@Override
