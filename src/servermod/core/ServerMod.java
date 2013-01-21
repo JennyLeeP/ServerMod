@@ -44,6 +44,7 @@ public class ServerMod {
 			Registry.registerPastebinProvider("pastebin", new PastebinCom());
 			Registry.registerPastebinProvider("forge", new PastebinStikked("http://paste.minecraftforge.net/api"));
 			Registry.registerPastebinProvider("ubuntu", new PastebinUbuntu());
+			Registry.registerPastebinProvider("sprunge", new PastebinSprunge());
 		}
 		
 		event.registerServerCommand(new CommandKill());
@@ -57,7 +58,7 @@ public class ServerMod {
 		event.registerServerCommand(new CommandSpawnMob());
 		event.registerServerCommand(new CommandSpawn());
 		
-		settings.addSetting("provider-pastebin", "forge", "Pastebin to use as preferred. Pastebins supported by default: pastebin forge ubuntu");
+		settings.addSetting("provider-pastebin", "forge", "Pastebin to use as preferred. Pastebins supported by default: pastebin forge ubuntu sprunge");
 		settings.addSetting("require-op-tps", false, "Require op for the /tps command");
 		settings.addSetting("require-op-kill-self", false, "Require op for using /kill on yourself");
 		settings.addSetting("require-op-spawn", false, "Require op for the /spawn command");
@@ -88,7 +89,7 @@ public class ServerMod {
 	}
 	
 	public String paste(String title, String text) throws PasteException {
-		List<PastebinProvider> pastebins = Registry.getProviders();
+		List<PastebinProvider> pastebins = Registry.getPastebinProviders();
 		for (int i = 0; i < pastebins.size(); i++) { // maintain order
 			PastebinProvider pastebin = pastebins.get(i);
 			try {

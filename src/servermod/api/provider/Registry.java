@@ -43,7 +43,7 @@ public class Registry {
 	 * 
 	 * @return List of providers
 	 */
-	public static List<PastebinProvider> getProviders() {
+	public static List<PastebinProvider> getPastebinProviders() {
 		List<PastebinProvider> providers = new ArrayList<PastebinProvider>(pastebinProviders.size());
 		providers.add(CallHandler.instance.getPastebin()); // priority over the preferred one
 		providers.addAll(pastebinProviders.values());
